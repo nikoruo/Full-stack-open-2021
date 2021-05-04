@@ -1,1 +1,1 @@
-4.5.21 Osa1 tehtävät tulevat tähän hakemistoon
+4.5.21 Osan 1 tehtävät tulevat tähän hakemistoon
