@@ -16,12 +16,22 @@ const App = () => {
     ]
 
     const [selected, setSelected] = useState(0)
+    const [voted, setVoted] = useState(new Array(anecdotes.length).fill(0))
 
-    const handleNextClick = () => setSelected(Math.floor(Math.random() * (Math.ceil(6) - Math.floor(0)) + Math.floor(0)))
-    console.log(selected)
+    //random integer 0-5
+    const handleNextClick = () => setSelected(Math.floor(Math.random() * (anecdotes.length - 0) + 0))
+    //annetaan ääniä ja ylläpidetään taulukkoa annetuista äänistä
+    const handleVoteClick = () => {
+        let tmp = [...voted]
+        tmp[selected] += 1
+        setVoted(tmp)
+    }
+    
     return (
         <div>
             <p>{anecdotes[selected]}</p>
+            <p>has {voted[selected]} votes</p>
+            <Button handleClick={handleVoteClick} name={"vote"}></Button>
             <Button handleClick={handleNextClick} name={"next anecdote"}></Button>
         </div>
     )
