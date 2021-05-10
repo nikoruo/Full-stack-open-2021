@@ -1,5 +1,10 @@
 import React, { useState } from 'react'
 
+//nappulat
+const Button = ({ handleClick, name }) => (
+    <button onClick={handleClick}>{name}</button>
+)
+
 const App = () => {
     const anecdotes = [
         'If it hurts, do it more often',
@@ -12,9 +17,12 @@ const App = () => {
 
     const [selected, setSelected] = useState(0)
 
+    const handleNextClick = () => setSelected(Math.floor(Math.random() * (Math.ceil(6) - Math.floor(0)) + Math.floor(0)))
+    console.log(selected)
     return (
         <div>
-            {anecdotes[selected]}
+            <p>{anecdotes[selected]}</p>
+            <Button handleClick={handleNextClick} name={"next anecdote"}></Button>
         </div>
     )
 }
