@@ -1,9 +1,35 @@
 import React, { useState } from 'react'
 
+//otsikot
+const Header = ({ title }) => {
+    return (
+        <h1>
+            {title}
+        </h1>
+    )
+}
+
 //nappulat
 const Button = ({ handleClick, name }) => (
     <button onClick={handleClick}>{name}</button>
 )
+
+//suurin ‰‰nim‰‰r‰
+const Topper = (props) => {
+
+    const anecdotes = props.lines
+    const votes = props.numbers
+
+    //etsit‰‰n ensimm‰isen korkeimman arvon omaavan indexin indexi
+    const top = votes.indexOf(Math.max(...votes))
+
+    return (
+        <div>
+            <p>{anecdotes[top]}</p>
+            <p>has {votes[top]} votes</p>
+        </div>
+    )
+}
 
 const App = () => {
     const anecdotes = [
@@ -17,7 +43,7 @@ const App = () => {
 
     const [selected, setSelected] = useState(0)
     const [voted, setVoted] = useState(new Array(anecdotes.length).fill(0))
-
+    
     //random integer 0-5
     const handleNextClick = () => setSelected(Math.floor(Math.random() * (anecdotes.length - 0) + 0))
     //annetaan ‰‰ni‰ ja yll‰pidet‰‰n taulukkoa annetuista ‰‰nist‰
@@ -29,10 +55,13 @@ const App = () => {
     
     return (
         <div>
+            <Header title={"Anecdote of the day"} />
             <p>{anecdotes[selected]}</p>
             <p>has {voted[selected]} votes</p>
             <Button handleClick={handleVoteClick} name={"vote"}></Button>
             <Button handleClick={handleNextClick} name={"next anecdote"}></Button>
+            <Header title={"Anecdote with most votes"} />
+            <Topper lines={anecdotes} numbers={voted}/>
         </div>
     )
 }
