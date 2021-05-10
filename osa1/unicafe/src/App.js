@@ -18,6 +18,7 @@ const Statistics = ({ good, neutral, bad }) => {
     //positiivisten osuus
     const positive = good / (good + neutral + bad) * 100
 
+    //tarkistus, onko vielä annettu palautteita
     if (good === 0 && neutral === 0 && bad === 0) {
         return (
             <div>
@@ -27,21 +28,35 @@ const Statistics = ({ good, neutral, bad }) => {
     }
 
     return (
-        <div>
-            <StatisticLine count={good} name={"good"} />
-            <StatisticLine count={neutral} name={"neutral"} />
-            <StatisticLine count={bad} name={"bad"} />
-            <p>all: {sum}</p>
-            <p>average: {average}</p>
-            <p>positive: {positive} %</p>
-        </div>
+        <table>
+            <tbody>
+                <StatisticLine count={good} name={"good"} />
+                <StatisticLine count={neutral} name={"neutral"} />
+                <StatisticLine count={bad} name={"bad"} />
+                <tr>
+                    <td>all</td>
+                    <td>{sum}</td>
+                </tr>
+                <tr>
+                    <td>average</td>
+                    <td>{average}</td>
+                </tr>
+                <tr>
+                    <td>positive</td>
+                    <td>{positive} %</td>
+                </tr>
+            </tbody>
+        </table>
     )
 }
 
 //statistics -rivit
 const StatisticLine = ({count, name}) => {
     return (
-        <p>{name} {count}</p>    
+        <tr>
+            <td>{name}</td>
+            <td>{count}</td>    
+        </tr>
     )
 }
 
