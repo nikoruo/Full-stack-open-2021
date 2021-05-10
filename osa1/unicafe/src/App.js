@@ -33,6 +33,14 @@ const App = () => {
     //toiminallisuus Bad -nappulalle
     const handleBadClick = () => setBad(bad + 1)
 
+    //step2
+    //kaikki
+    const sum = good + neutral + bad
+    //keskiarvo
+    const average = (good * 1 + neutral * 0 + bad * -1) / sum
+    //positiivisten osuus
+    const positive = good/(good+neutral+bad)*100
+
     return (
         <div>
             <Header title={"give feedback"} />
@@ -43,6 +51,9 @@ const App = () => {
             <Stats count={good} name={"good"} />
             <Stats count={neutral} name={"neutral"} />
             <Stats count={bad} name={"bad"} />
+            <p>all: {sum}</p>
+            <p>average: {average}</p>
+            <p>positive: {positive} %</p>
         </div>
     )
 }
