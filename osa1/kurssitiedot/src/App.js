@@ -11,25 +11,25 @@ const Header = (props) => {
 }
 
 //Komponentti, jolla renderöidään kurssin yksittäisten osien tiedot
-//saa propsinaan taulukon, jossa 0: osan nimi, 1: tehtävien määrä
+//saa propsinaan tiedot yksittäisestä osasta
 const Part = (props) => {
     console.log(props)
     return (
         <p>
-            {props.table.name} {props.table.exercises}
+            {props.obj.name} {props.obj.exercises}
         </p>
     )
 }
 
 //Komponentti, jolla renderöidään kurssin osat
-//saa propsinaan 3x taulukkoa, jossa 0: osan nimi, 1: tehtävien määrä
+//saa propsinaan taulukon osista
 const Content = (props) => {
     console.log(props)
     return (
         <div>
-            <Part table={props.table[0]} />
-            <Part table={props.table[1]} />
-            <Part table={props.table[2]} />
+            <Part obj={props.table[0]} />
+            <Part obj={props.table[1]} />
+            <Part obj={props.table[2]} />
         </div>
     )
 }
