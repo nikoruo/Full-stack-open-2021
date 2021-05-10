@@ -9,8 +9,37 @@ const Header = ({title}) => {
     )
 }
 
+//statistics -komponentti
+const Statistics = ({ good, neutral, bad }) => {
+    //kaikki
+    const sum = good + neutral + bad
+    //keskiarvo
+    const average = (good * 1 + neutral * 0 + bad * -1) / sum
+    //positiivisten osuus
+    const positive = good / (good + neutral + bad) * 100
+
+    if (good === 0 && neutral === 0 && bad === 0) {
+        return (
+            <div>
+                <p>No feedback given</p>
+            </div>
+        )
+    }
+
+    return (
+        <div>
+            <StatisticLine count={good} name={"good"} />
+            <StatisticLine count={neutral} name={"neutral"} />
+            <StatisticLine count={bad} name={"bad"} />
+            <p>all: {sum}</p>
+            <p>average: {average}</p>
+            <p>positive: {positive} %</p>
+        </div>
+    )
+}
+
 //statistics -rivit
-const Stats = ({count, name}) => {
+const StatisticLine = ({count, name}) => {
     return (
         <p>{name} {count}</p>    
     )
@@ -33,14 +62,6 @@ const App = () => {
     //toiminallisuus Bad -nappulalle
     const handleBadClick = () => setBad(bad + 1)
 
-    //step2
-    //kaikki
-    const sum = good + neutral + bad
-    //keskiarvo
-    const average = (good * 1 + neutral * 0 + bad * -1) / sum
-    //positiivisten osuus
-    const positive = good/(good+neutral+bad)*100
-
     return (
         <div>
             <Header title={"give feedback"} />
@@ -48,12 +69,7 @@ const App = () => {
             <Button handleClick={handleNeutralClick} name={"neutral"}></Button>
             <Button handleClick={handleBadClick} name={"bad"}></Button>
             <Header title={"statistics"} />
-            <Stats count={good} name={"good"} />
-            <Stats count={neutral} name={"neutral"} />
-            <Stats count={bad} name={"bad"} />
-            <p>all: {sum}</p>
-            <p>average: {average}</p>
-            <p>positive: {positive} %</p>
+            <Statistics good={good} neutral={neutral} bad={bad}/>            
         </div>
     )
 }
