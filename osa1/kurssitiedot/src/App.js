@@ -2,6 +2,7 @@ import React from 'react'
 
 //Komponentti, jolla renderöidään kurssin otsikko
 const Header = (props) => {
+    console.log("Header")
     console.log(props)
     return (
         <h1>
@@ -13,6 +14,7 @@ const Header = (props) => {
 //Komponentti, jolla renderöidään kurssin yksittäisten osien tiedot
 //saa propsinaan tiedot yksittäisestä osasta
 const Part = (props) => {
+    console.log("Part")
     console.log(props)
     return (
         <p>
@@ -24,6 +26,7 @@ const Part = (props) => {
 //Komponentti, jolla renderöidään kurssin osat
 //saa propsinaan taulukon osista
 const Content = (props) => {
+    console.log("Content")
     console.log(props)
     return (
         <div>
@@ -35,12 +38,13 @@ const Content = (props) => {
 }
 
 
-//Komponentti, jolla renderöidään kurssin nimi
+//Komponentti, jolla renderöidään kurssin tehtävien määrä
 const Total = (props) => {
+    console.log("Total")
     console.log(props)
     return (
         <p>
-            Number of exercises {props.sum}
+            Number of exercises {props.sum[0].exercises + props.sum[1].exercises + props.sum[2].exercises}
         </p>
     )
 }
@@ -49,24 +53,26 @@ const Total = (props) => {
 //pääkomponentti, joka sisältää datan ja palautettavan div:n
 const App = () => {
     const course = 'Half Stack application development'
-    const part1 = {
-        name: 'Fundamentals of React',
-        exercises: 10
-    }
-    const part2 = {
-        name: 'Using props to pass data',
-        exercises: 7
-    }
-    const part3 = {
-        name: 'State of a component',
-        exercises: 14
-    }
+    const parts = [
+        {
+            name: 'Fundamentals of React',
+            exercises: 10
+        },
+        {
+            name: 'Using props to pass data',
+            exercises: 7
+        },
+        {
+            name: 'State of a component',
+            exercises: 14
+        }
+    ]
 
     return (
         <div>
             <Header title={course} />
-            <Content table={[part1, part2, part3]}/>
-            <Total sum={part1.exercises + part2.exercises + part3.exercises} />
+            <Content table={parts}/>
+            <Total sum={parts} />
         </div>
     )
 }
