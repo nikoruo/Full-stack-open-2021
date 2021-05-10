@@ -6,7 +6,7 @@ const Header = (props) => {
     console.log(props)
     return (
         <h1>
-            {props.title}
+            {props.title.name}
         </h1>
     )
 }
@@ -24,15 +24,14 @@ const Part = (props) => {
 }
 
 //Komponentti, jolla renderöidään kurssin osat
-//saa propsinaan taulukon osista
 const Content = (props) => {
     console.log("Content")
     console.log(props)
     return (
         <div>
-            <Part obj={props.table[0]} />
-            <Part obj={props.table[1]} />
-            <Part obj={props.table[2]} />
+            <Part obj={props.table.parts[0]} />
+            <Part obj={props.table.parts[1]} />
+            <Part obj={props.table.parts[2]} />
         </div>
     )
 }
@@ -44,7 +43,7 @@ const Total = (props) => {
     console.log(props)
     return (
         <p>
-            Number of exercises {props.sum[0].exercises + props.sum[1].exercises + props.sum[2].exercises}
+            Number of exercises {props.sum.parts[0].exercises + props.sum.parts[1].exercises + props.sum.parts[2].exercises}
         </p>
     )
 }
@@ -52,27 +51,29 @@ const Total = (props) => {
 
 //pääkomponentti, joka sisältää datan ja palautettavan div:n
 const App = () => {
-    const course = 'Half Stack application development'
-    const parts = [
-        {
-            name: 'Fundamentals of React',
-            exercises: 10
-        },
-        {
-            name: 'Using props to pass data',
-            exercises: 7
-        },
-        {
-            name: 'State of a component',
-            exercises: 14
-        }
-    ]
+    const course = {
+        name: 'Half Stack application development',
+        parts: [
+            {
+                name: 'Fundamentals of React',
+                exercises: 10
+            },
+            {
+                name: 'Using props to pass data',
+                exercises: 7
+            },
+            {
+                name: 'State of a component',
+                exercises: 14
+            }
+        ]
+    }
 
     return (
         <div>
             <Header title={course} />
-            <Content table={parts}/>
-            <Total sum={parts} />
+            <Content table={course}/>
+            <Total sum={course} />
         </div>
     )
 }
