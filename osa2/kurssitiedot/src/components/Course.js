@@ -12,11 +12,11 @@ const Header = (props) => {
 
 //Alikomponentti, jolla renderöidään kurssin yksittäisten osien tiedot
 //saa propsinaan tiedot yksittäisestä osasta
-const Part = (props) => {
-    console.log("Part", props)
+const Part = ({obj}) => {
+    console.log("Part", obj)
     return (
         <p>
-            {props.obj.name} {props.obj.exercises}
+            {obj.name} {obj.exercises}
         </p>
     )
 }
@@ -36,6 +36,9 @@ const Content = ({table}) => {
 //Alikomponentti, jolla renderöidään kurssin tehtävien määrä
 const Total = ({sum}) => {
     console.log("Total", sum)
+
+    //luo mapin avulla taulukon, johon kerätään vain harjoitusten määrä
+    //sen jälkeen .reduce() avulla lasketaan tehtävien yhteismäärä
     const exercises = (sum.parts.map(x => x.exercises)).reduce((accumulator, currentValue) => accumulator + currentValue)
     console.log("exercises", exercises)
 
@@ -48,8 +51,6 @@ const Total = ({sum}) => {
 
 const Course = ({ course }) => {
     console.log("Course -component", course)
-
-
 
     return (
         <div>
