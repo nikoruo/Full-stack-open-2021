@@ -40,8 +40,8 @@ const Total = ({sum}) => {
     console.log("exercises", exercises)
 
     return (
-        <p>
-            Number of exercises {exercises}
+        <p style={{ fontWeight: "bold" }}>
+            total of {exercises} exercises
         </p>
     )
 }
