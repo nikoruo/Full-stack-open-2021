@@ -34,20 +34,17 @@ const Content = ({table}) => {
 
 
 //Alikomponentti, jolla renderöidään kurssin tehtävien määrä
-/*
 const Total = ({sum}) => {
     console.log("Total", sum)
-    const y = 0
-    const tmp = sum.parts.map(x => x.exercises) 
-    tmp = tmp.forEach
-    console.log("tmp", tmp)
+    const exercises = (sum.parts.map(x => x.exercises)).reduce((accumulator, currentValue) => accumulator + currentValue)
+    console.log("exercises", exercises)
 
     return (
         <p>
-            Number of exercises {props.sum.parts[0].exercises + props.sum.parts[1].exercises + props.sum.parts[2].exercises}
+            Number of exercises {exercises}
         </p>
     )
-}<Total sum={course} />*/
+}
 
 const Course = ({ course }) => {
     console.log("Course -component", course)
@@ -58,7 +55,7 @@ const Course = ({ course }) => {
         <div>
             <Header title={course} />
             <Content table={course} />
-            
+            <Total sum={course} />
         </div>
         )
 }
