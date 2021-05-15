@@ -22,35 +22,43 @@ const Part = (props) => {
 }
 
 //Alikomponentti, jolla renderöidään kurssin osat
-const Content = (props) => {
-    console.log("Content", props)
+const Content = ({table}) => {
+    console.log("Content", table)
+
     return (
         <div>
-            <Part obj={props.table.parts[0]} />
-            <Part obj={props.table.parts[1]} />
-            <Part obj={props.table.parts[2]} />
+            {table.parts.map(part => <Part key={part.id} obj={part} />)}
         </div>
     )
 }
 
 
 //Alikomponentti, jolla renderöidään kurssin tehtävien määrä
-const Total = (props) => {
-    console.log("Total", props)
+/*
+const Total = ({sum}) => {
+    console.log("Total", sum)
+    const y = 0
+    const tmp = sum.parts.map(x => x.exercises) 
+    tmp = tmp.forEach
+    console.log("tmp", tmp)
+
     return (
         <p>
             Number of exercises {props.sum.parts[0].exercises + props.sum.parts[1].exercises + props.sum.parts[2].exercises}
         </p>
     )
-}
+}<Total sum={course} />*/
 
 const Course = ({ course }) => {
     console.log("Course -component", course)
+
+
+
     return (
         <div>
             <Header title={course} />
             <Content table={course} />
-            <Total sum={course} />
+            
         </div>
         )
 }
