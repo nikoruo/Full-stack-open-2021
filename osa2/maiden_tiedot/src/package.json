@@ -1,0 +1,11 @@
+{
+  "name": "maiden_tiedot",
+  "version": "0.0.0",
+  "description": "maiden_tiedot",
+  "author": {
+    "name": ""
+  },
+  "dependencies": {
+    "axios": "^0.21.1"
+  }
+}
