@@ -1,4 +1,5 @@
 import React from 'react'
+import WeatherInfo from './WeatherInfo'
 
 //komponentti, jolla palautetaan yksittäisen maan tiedot
 const CountryInfo = ({ country }) => {
@@ -13,6 +14,7 @@ const CountryInfo = ({ country }) => {
                 {country.languages.map(lang => <li key={lang.name}>{lang.name}</li>)}
             </ul>
             <img src={country.flag} alt="" style={{ height: 100, width: 100 }} />
+            <WeatherInfo country={country} />
         </div>
     )
 

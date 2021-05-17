@@ -3,12 +3,10 @@ import Filter from './components/Filter'
 import axios from 'axios'
 import CountriesView from './components/CountriesView'
 
-
-
 function App() {
     const [newFilter, setNewFilter] = useState('')
     const [countries, setCountries] = useState([])
-
+    
     useEffect(() => {
         console.log('effect')
         axios
