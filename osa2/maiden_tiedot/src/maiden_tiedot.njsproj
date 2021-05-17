@@ -17,6 +17,7 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
     <Content Include="components\CountriesView.js" />
+    <Content Include="components\WeatherInfo.js" />
     <Content Include="index.css" />
     <Content Include="package-lock.json" />
     <Content Include="package.json" />
