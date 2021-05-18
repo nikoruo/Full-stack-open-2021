@@ -34,9 +34,25 @@ const App = () => {
         }
 
         //testataan, löytyykö käyttäjä jo vai ei
-        persons.map(person => person.name).includes(newContact.name) ?
-            window.alert(`${newContact.name} is already added to phonebook`)
-            : contactService
+        if (persons.map(person => person.name).includes(newContact.name)) {
+            if (window.confirm(`${newContact.name} is already added to phonebook, replace the old number with a new one?`)) {
+                const oldUser = persons.find(c => c.name === newContact.name)
+
+                contactService
+                    .update(oldUser.id, newContact)
+                    .then(returnedContact => {
+                        console.log(returnedContact)
+                        setPersons(persons.map(c => c.id !== oldUser.id ? c : returnedContact))
+
+                        setNewName('')
+                        setNewNumber('')
+                    })
+                    .catch(error => {
+                        console.log('fail')
+                    })
+            }
+        } else {
+            contactService
                 .create(newContact)
                 .then(returnedContact => {
                     console.log(returnedContact)
@@ -48,6 +64,7 @@ const App = () => {
                 .catch(error => {
                     console.log('fail')
                 })
+        }
     }   
 
     const deleteContact = (person) => {
