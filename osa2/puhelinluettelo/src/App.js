@@ -25,18 +25,24 @@ const App = () => {
         event.preventDefault()
         console.log('Adding new contact')
         const newContact = {
-            id: persons.length + 1,
             name: newName,
-            number: newNumber
+            number: newNumber,
+            id: persons.length + 1            
         }
 
         //testataan, löytyykö käyttäjä jo vai ei
         persons.map(person => person.name).includes(newContact.name) ?
-                window.alert(`${newContact.name} is already added to phonebook`) : setPersons(persons.concat(newContact))
+            window.alert(`${newContact.name} is already added to phonebook`)
+            : axios
+                .post('http://localhost:3001/persons', newContact)
+                .then(response => {
+                    console.log(response)
+                    setPersons(persons.concat(newContact))
 
-        setNewName('')
-        setNewNumber('')
-    }
+                    setNewName('')
+                    setNewNumber('')
+                })
+    }   
 
     //nimi -kentän handleri
     const handleNameChange = (event) => {        
