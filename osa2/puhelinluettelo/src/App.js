@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Filter from './components/Filter'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
-import axios from 'axios'
+import contactService from './services/contacts'
 
 const App = () => {
     const [persons, setPersons] = useState([])
@@ -12,11 +12,14 @@ const App = () => {
 
     useEffect(() => {
         console.log('effect')
-        axios
-            .get('http://localhost:3001/persons')
-            .then(response => {
+        contactService
+            .getAll()
+            .then(initialContacts => {
                 console.log('promise fulfilled')
-                setPersons(response.data)
+                setPersons(initialContacts)
+            })
+            .catch(error => {
+                console.log('fail')
             })
     }, [])
 
@@ -33,16 +36,31 @@ const App = () => {
         //testataan, löytyykö käyttäjä jo vai ei
         persons.map(person => person.name).includes(newContact.name) ?
             window.alert(`${newContact.name} is already added to phonebook`)
-            : axios
-                .post('http://localhost:3001/persons', newContact)
-                .then(response => {
-                    console.log(response)
-                    setPersons(persons.concat(newContact))
+            : contactService
+                .create(newContact)
+                .then(returnedContact => {
+                    console.log(returnedContact)
+                    setPersons(persons.concat(returnedContact))
 
                     setNewName('')
                     setNewNumber('')
                 })
+                .catch(error => {
+                    console.log('fail')
+                })
     }   
+
+    const deleteContact = (id) => {
+        contactService
+            .delContact(id)
+            .then(deletedContact => {
+                console.log("Delete succeeded")
+                setPersons(persons.filter(c => c.id !== id))
+            })
+            .catch(error => {
+                console.log('fail')
+            })
+    }
 
     //nimi -kentän handleri
     const handleNameChange = (event) => {        
@@ -73,7 +91,7 @@ const App = () => {
                 number: newNumber, numberChange: handleNumberChange
             }} />
             <h2>Numbers</h2>
-            <Persons contacts={ContactsToShow} />
+            <Persons contacts={ContactsToShow} deleteContact={deleteContact} />
         </div>
     )
 
