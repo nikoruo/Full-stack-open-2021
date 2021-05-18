@@ -50,16 +50,19 @@ const App = () => {
                 })
     }   
 
-    const deleteContact = (id) => {
-        contactService
-            .delContact(id)
-            .then(deletedContact => {
-                console.log("Delete succeeded")
-                setPersons(persons.filter(c => c.id !== id))
-            })
-            .catch(error => {
-                console.log('fail')
-            })
+    const deleteContact = (person) => {
+
+        if (window.confirm(`Delete ${person.name}?`)) {
+            contactService
+                .delContact(person.id)
+                .then(deletedContact => {
+                    console.log("Delete succeeded")
+                    setPersons(persons.filter(c => c.id !== person.id))
+                })
+                .catch(error => {
+                    console.log('fail')
+                })
+        }
     }
 
     //nimi -kentän handleri

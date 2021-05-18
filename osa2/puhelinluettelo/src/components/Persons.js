@@ -8,7 +8,7 @@ const Persons = ({ contacts, deleteContact }) => {
                 <div key={person.id}>
                     {person.name}
                     {person.number}
-                    <button onClick={()=>deleteContact(person.id)}>delete</button>
+                    <button onClick={()=>deleteContact(person)}>delete</button>
                 </div>)}
         </div>
     )
