@@ -17,12 +17,14 @@
   <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
   <ItemGroup>
     <Content Include="components\Filter.js" />
+    <Content Include="components\Notification.js" />
     <Content Include="components\PersonForm.js" />
     <Content Include="components\Persons.js" />
     <Content Include="index.css" />
     <Content Include="package.json" />
     <Content Include="App.js" />
     <Content Include="index.js" />
+    <Content Include="services\contacts.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="components\" />
