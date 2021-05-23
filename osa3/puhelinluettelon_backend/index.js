@@ -26,7 +26,7 @@ let persons = [
     }
 ]
 app.get('/', (req, res) => {
-    res.send('<h1>Hello World!</h1>')
+    res.send('<h1>Tervetuloa puhelinluetteloon</h1><p>Seuraavat urlit ovat toiminnassa<ul><li>/info</li><li>/api/persons</li><li>/api/persons/id</li></ul>')
 })
 
 app.get('/info', (req, res) => {
@@ -57,25 +57,31 @@ app.delete('/api/persons/:id', (request, response) => {
 })
 
 const generateId = () => {
-    const maxId = persons.length > 0
-        ? Math.max(...persons.map(p => p.id))
-        : 0
-    return maxId + 1
+
+    return Math.floor(Math.random()*1234567890)
 }
 
 app.post('/api/persons', (request, response) => {
     const body = request.body
 
-    if (!body.content) {
+    if (body.name === '' || body.name === undefined) {
         return response.status(400).json({
-            error: 'content missing'
+            error: 'name missing'
         })
-    }
+    } else if (persons.find(p => body.name === p.name)) {
+        return response.status(400).json({
+            error: 'name must be unique'
+        })
+    } else if (body.number === '' || body.number === undefined) {
+        return response.status(400).json({
+            error: 'number missing'
+        })
+    } 
 
     const person = {
+        id: generateId(),
         name: body.name,
-        number: body.number,
-        id: generateId()
+        number: body.number        
     }
 
     persons = persons.concat(person)
