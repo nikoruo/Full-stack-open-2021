@@ -5,6 +5,7 @@ const cors = require('cors')
 
 app.use(cors())
 app.use(express.json())
+app.use(express.static('build'))
 morgan.token('body', (req, res) => JSON.stringify(req.body))
 app.use(morgan('tiny', {
     skip: function (req, res) { return req.method === "POST" }
@@ -35,9 +36,6 @@ let persons = [
         number: "39-23-6423122"
     }
 ]
-app.get('/', (req, res) => {
-    res.send('<h1>Tervetuloa puhelinluetteloon</h1><p>Seuraavat urlit ovat toiminnassa<ul><li>/info</li><li>/api/persons</li><li>/api/persons/id</li></ul>')
-})
 
 app.get('/info', (req, res) => {
     res.send(`<p>Phonebook has info for ${persons.length} people</p> <p>${new Date()}</p>`)
