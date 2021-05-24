@@ -110,7 +110,7 @@ const App = () => {
                 .catch(error => {
                     console.log('fail')
                     setInfoMessage({
-                        text: `Error while adding ${newContact.name}. Please try again.`,
+                        text: `"${error.response.data.error}". Error while adding new user, please try again.`,
                         colour: 'red'
                     })
 
