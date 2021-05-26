@@ -53,7 +53,7 @@ app.get('/api/persons/:id', (req, res, next) => {
 app.delete('/api/persons/:id', (req, res) => {
     Contact.findByIdAndRemove(req.params.id)
 	.then(result => {
-		persons = persons.filter(person => person.id !== id)
+		persons = persons.filter(person => person.id !== req.params.id)
 		res.status(204).end()
 	})
 	.catch(error => next(error))    
@@ -76,10 +76,16 @@ app.put('/api/persons/:id', (req, res, next) => {
     name: body.name,
     number: body.number,
   }
-  
+  console.log("ykkönen")
   Contact.findByIdAndUpdate(req.params.id, contact, { new: true })
     .then(updatedContact => {
-      console.log("testi",updatedContact)
+      if(updatedContact===null){
+			persons = persons.filter(person => person.id !== req.body.id)			
+			console.log("kakkonen")
+			return res.status(400).json({
+            error: 'user has been deleted'
+        })
+		}
 	  res.json(updatedContact)
     })
     .catch(error => next(error))
@@ -107,7 +113,7 @@ app.post('/api/persons', (request, response, next) => {
         number: body.number,
 	})
 	
-	contact.save().then(savedContact => {
+	contact.save().then(savedContact => {		
 		persons = persons.concat(contact)
 		response.json(savedContact)
 	})

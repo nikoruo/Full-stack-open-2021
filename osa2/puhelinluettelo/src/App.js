@@ -66,7 +66,7 @@ const App = () => {
 
                         setNewName('')
                         setNewNumber('')
-
+						
                         setInfoMessage({
                             text: `Updated the number of ${returnedContact.name} to ${returnedContact.number}`,
                             colour: 'green'
@@ -75,11 +75,9 @@ const App = () => {
                             setInfoMessage(null)
                         }, 2000)
                     })
-                    .catch(error => {
-                        console.log('fail')
-						
+                    .catch(error => {						
                         setInfoMessage({
-                            text: `Information of ${oldUser.name} has already been removed from the server`,
+                            text: `"${error.response.data.error}". Error while updating new user, please try again.`,
                             colour: 'red'
                         })
 
