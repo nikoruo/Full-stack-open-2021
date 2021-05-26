@@ -62,14 +62,25 @@ app.delete('/api/persons/:id', (req, res) => {
 app.put('/api/persons/:id', (req, res, next) => {
   const body = req.body
 
+    if (body.name === '' || body.name === undefined) {
+        return res.status(400).json({
+            error: 'name missing'
+        })
+    } else if (body.number === '' || body.number === undefined) {
+        return res.status(400).json({
+            error: 'number missing'
+        })
+    } 	
+
   const contact = {
     name: body.name,
     number: body.number,
   }
-
+  
   Contact.findByIdAndUpdate(req.params.id, contact, { new: true })
     .then(updatedContact => {
-      res.json(updatedContact)
+      console.log("testi",updatedContact)
+	  res.json(updatedContact)
     })
     .catch(error => next(error))
 })
@@ -113,11 +124,11 @@ app.use(unknownEndpoint)
 // virheellisten pyyntöjen käsittely
 const errorHandler = (error, req, res, next) => {
     console.error(error.message)
-
+	
   if (error.name === 'CastError') {
     return res.status(400).send({ error: 'malformatted id' })
   } else if (error.name === 'ValidationError'){
-	  return res.status(400).send({ error: 'name must be unique' })
+	  return res.status(400).send({ error: error.message })
   }
 
   next(error)

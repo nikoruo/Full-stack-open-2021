@@ -46,7 +46,7 @@ const App = () => {
         const newContact = {
             name: newName,
             number: newNumber,
-            id: persons.length + 1            
+            id: null            
         }
 
         //testataan, löytyykö käyttäjä jo vai ei
@@ -56,7 +56,8 @@ const App = () => {
                 //halusi, joten päivitetään vanhalle kontaktille uusi numero
 
                 const oldUser = persons.find(c => c.name === newContact.name)
-                
+                newContact.id = oldUser.id
+				
                 contactService
                     .update(oldUser.id, newContact)
                     .then(returnedContact => {
@@ -76,6 +77,7 @@ const App = () => {
                     })
                     .catch(error => {
                         console.log('fail')
+						
                         setInfoMessage({
                             text: `Information of ${oldUser.name} has already been removed from the server`,
                             colour: 'red'
