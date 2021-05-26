@@ -85,10 +85,6 @@ app.post('/api/persons', (request, response, next) => {
         return response.status(400).json({
             error: 'name missing'
         })
-    } else if (persons.find(p => body.name === p.name)) {
-        return response.status(400).json({
-            error: 'name must be unique'
-        })
     } else if (body.number === '' || body.number === undefined) {
         return response.status(400).json({
             error: 'number missing'
@@ -120,6 +116,8 @@ const errorHandler = (error, req, res, next) => {
 
   if (error.name === 'CastError') {
     return res.status(400).send({ error: 'malformatted id' })
+  } else if (error.name === 'ValidationError'){
+	  return res.status(400).send({ error: 'name must be unique' })
   }
 
   next(error)

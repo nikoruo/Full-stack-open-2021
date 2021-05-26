@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const uniqueValidator = require('mongoose-unique-validator')
 
 //ÄLÄ KOSKAAN TALLETA SALASANOJA githubiin!
 const url = process.env.MONGODB_URI
@@ -16,10 +17,12 @@ const name = process.argv[3]
 const number = process.argv[4]
 
 const contactSchema = new mongoose.Schema({
-  id: Number,
-  name: String,
-  number: String,
+  id: {type: String},
+  name: {type: String, required: true, unique: true},
+  number: {type: String, required: true, unique: true},
 })
+
+contactSchema.plugin(uniqueValidator)
 
 contactSchema.set('toJSON', {
   transform: (document, returnedObject) => {
