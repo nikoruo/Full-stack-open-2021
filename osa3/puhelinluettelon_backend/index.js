@@ -21,7 +21,11 @@ let persons = []
 
 //info -sivu
 app.get('/info', (req, res) => {
-    res.send(`<p>Phonebook has info for ${persons.length} people</p> <p>${new Date()}</p>`)
+    Contact.find({}).then(contacts => {
+		res.send(`<p>Phonebook has info for ${contacts.length} people</p> <p>${new Date()}</p>`)
+	})
+	.catch(error => next(error))
+	
 })
 
 //kaikkien kontaktien haku
@@ -29,6 +33,7 @@ app.get('/api/persons', (req, res) => {
     Contact.find({}).then(contacts => {
 		res.json(contacts)
 	})
+	.catch(error => next(error)) 
 })
 
 //yksittäisen kontaktin tiedot
@@ -73,7 +78,7 @@ app.put('/api/persons/:id', (req, res, next) => {
 const generateId = () => {return Math.floor(Math.random()*1234567890)}
 
 //uuden kontaktin luominen
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
     const body = request.body
 
     if (body.name === '' || body.name === undefined) {
@@ -96,10 +101,11 @@ app.post('/api/persons', (request, response) => {
 	})
 	
 	contact.save().then(savedContact => {
+		persons = persons.concat(contact)
 		response.json(savedContact)
 	})
-	
-    persons = persons.concat(contact)
+	.catch(error => next(error))
+    
 })
 
 // olemattomien osoitteiden käsittely
