@@ -4,22 +4,20 @@ const uniqueValidator = require('mongoose-unique-validator')
 //ÄLÄ KOSKAAN TALLETA SALASANOJA githubiin!
 const url = process.env.MONGODB_URI
 
-console.log("conneting to", url)
+console.log('conneting to', url)
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
-	.then(result => {
+  .then(() => {
     console.log('connected to MongoDB')
   })
   .catch((error) => {
     console.log('error connecting to MongoDB:', error.message)
   })
-const name = process.argv[3]
-const number = process.argv[4]
 
 const contactSchema = new mongoose.Schema({
-  id: {type: String},
-  name: {type: String, required: true, unique: true, minlength: 3},
-  number: {type: String, required: true, minlength: 8},
+  id: { type: String },
+  name: { type: String, required: true, unique: true, minlength: 3 },
+  number: { type: String, required: true, minlength: 8 },
 })
 
 contactSchema.plugin(uniqueValidator)
