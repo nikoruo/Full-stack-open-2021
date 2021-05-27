@@ -1,3 +1,5 @@
+const _ = require('lodash')
+
 //dummy
 const dummy = (blogs) => {
   return 1
@@ -33,8 +35,52 @@ const favoriteBlog = (blogs) => {
   }
 }
 
+//kirjoittaja, jolla eniten blogeja
+const mostBlogs = (blogs) => {
+  if (blogs.length === 0) {
+    return undefined
+  } else {
+
+    const byAuthor = _(blogs).countBy('author')
+    const author = byAuthor.map(a => a)
+
+    const test = _(blogs).groupBy('author')
+    const maara = test.map(a => a)
+
+    console.log('TESTITESTITESTITESTI', JSON.stringify(maara))
+
+    return {
+      'author': Object.keys(author)[0],
+      'blogs': author.Object.keys(author)[0]
+    }
+  }
+}
+
+//kirjoittaja, jolla eniten tykkäyksiä
+const mostLikes = (blogs) => {
+  if (blogs.length === 0) {
+    return undefined
+  } else {
+
+    const byAuthor = _(blogs).countBy('author')
+    const author = byAuthor.map(a => a)
+
+    const test = _(blogs).groupBy('author')
+    const maara = test.map(a => a)
+
+    console.log('TESTITESTITESTITESTI', JSON.stringify(maara))
+
+    return {
+      'author': Object.keys(author)[0],
+      'blogs': author.Object.keys(author)[0]
+    }
+  }
+}
+
 module.exports = {
   dummy,
   totalLikes,
-  favoriteBlog
+  favoriteBlog,
+  mostBlogs,
+  mostLikes
 }

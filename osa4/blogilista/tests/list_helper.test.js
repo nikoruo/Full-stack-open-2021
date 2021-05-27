@@ -122,3 +122,53 @@ describe('favorite blog', () => {
     })
   })
 })
+
+//eniten blogeja kirjoittanut bloggari
+describe('most blogs', () => {
+
+  test('of empty list is undefined', () => {
+    const result = listHelper.mostBlogs(emptyList)
+    expect(result).toEqual(undefined)
+  })
+
+  test('when list has only one blog equals that author', () => {
+    const result = listHelper.mostBlogs(listWithOneBlog)
+    expect(result).toEqual({
+      author: 'Edsger W. Dijkstra',
+      blogs: 1
+    })
+  })
+
+  test('of a bigger list is chosen right', () => {
+    const result = listHelper.mostBlogs(blogs)
+    expect(result).toEqual({
+      author: 'Robert C. Martin',
+      blogs: 3
+    })
+  })
+})
+
+//eniten tykkäyksiä saanut bloggari
+describe('most likes', () => {
+
+  test('of empty list is undefined', () => {
+    const result = listHelper.mostLikes(emptyList)
+    expect(result).toEqual(undefined)
+  })
+
+  test('when list has only one blog equals that author', () => {
+    const result = listHelper.mostLikes(listWithOneBlog)
+    expect(result).toEqual({
+      author: 'Edsger W. Dijkstra',
+      likes: 5
+    })
+  })
+
+  test('of a bigger list is chosen right', () => {
+    const result = listHelper.mostLikes(blogs)
+    expect(result).toEqual({
+      author: 'Edsger W. Dijkstra',
+      likes: 17
+    })
+  })
+})
