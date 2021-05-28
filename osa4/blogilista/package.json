@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
-    "test": "jest --verbose",
+    "start": "cross-env NODE_ENV=production node index.js",
+    "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "test": "cross-env NODE_ENV=test jest --verbose --runInBand",
     "logs:prod": "heroku logs --tail",
     "lint": "eslint ."
   },
@@ -19,9 +19,11 @@
     "mongoose": "^5.11.13"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "eslint": "^7.18.0",
     "jest": "^27.0.1",
     "lodash": "^4.17.21",
-    "nodemon": "^2.0.7"
+    "nodemon": "^2.0.7",
+    "supertest": "^6.1.3"
   }
 }
