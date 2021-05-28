@@ -1,31 +1,15 @@
 const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
-
+const helper = require('./test_helper')
 const api = supertest(app)
 
 const Blog = require('../models/blog')
-const initialBlogs = [
-  {
-    title: 'Canonical string reduction',
-    author: 'Edsger W. Dijkstra',
-    url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
-    likes: 12,
-  },
-  {
-    title: 'First class tests',
-    author: 'Robert C. Martin',
-    url: 'http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll',
-    likes: 10,
-  },
-]
-beforeEach(async () => {
+
+/*beforeEach(async () => {
   await Blog.deleteMany({})
-  let blogObject = new Blog(initialBlogs[0])
-  await blogObject.save()
-  blogObject = new Blog(initialBlogs[1])
-  await blogObject.save()
-})
+  await Blog.insertMany(helper.initialBlogs)
+})*/
 
 //testejä backendiin
 describe('blog get tests', () => {
@@ -39,7 +23,13 @@ describe('blog get tests', () => {
   test('all blogs are returned', async () => {
     const response = await api.get('/api/blogs')
 
-    expect(response.body).toHaveLength(initialBlogs.length)
+    expect(response.body).toHaveLength(helper.initialBlogs.length)
+  })
+
+  test('all blogs are identified by id', async () => {
+    const response = await api.get('/api/blogs')
+    //response.body.forEach(b => console.log(b.id)) forEach -tutkiskelua
+    response.body.forEach(b => expect(b.id).toBeDefined())
   })
 
   afterAll(() => {
