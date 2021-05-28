@@ -149,7 +149,7 @@ describe('most blogs', () => {
 })
 
 //eniten tykkäyksiä saanut bloggari
-describe('most likes', () => {
+/*describe('most likes', () => {
 
   test('of empty list is undefined', () => {
     const result = listHelper.mostLikes(emptyList)
@@ -171,4 +171,4 @@ describe('most likes', () => {
       likes: 17
     })
   })
-})
+})*/

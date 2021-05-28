@@ -41,17 +41,11 @@ const mostBlogs = (blogs) => {
     return undefined
   } else {
 
-    const byAuthor = _(blogs).countBy('author')
-    const author = byAuthor.map(a => a)
-
-    const test = _(blogs).groupBy('author')
-    const maara = test.map(a => a)
-
-    console.log('TESTITESTITESTITESTI', JSON.stringify(maara))
+    const byAuthor = _.maxBy(_.map(_.countBy(blogs, 'author'), (val, key) => ({ author: key, blogs: val })), 'blogs')
 
     return {
-      'author': Object.keys(author)[0],
-      'blogs': author.Object.keys(author)[0]
+      'author': byAuthor.author,
+      'blogs': byAuthor.blogs
     }
   }
 }
