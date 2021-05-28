@@ -164,7 +164,7 @@ describe('when there is initially some blogs saved', () => {
       await api
         .put(`/api/blogs/${blogToUpdate.id}`)
         .send(blogToUpdate)
-        .expect(204)
+        .expect(200)
 
       const blogsAtEnd = await helper.blogsInDb()
 
