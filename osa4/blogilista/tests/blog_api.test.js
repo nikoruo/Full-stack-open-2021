@@ -6,13 +6,13 @@ const api = supertest(app)
 
 const Blog = require('../models/blog')
 
-/*beforeEach(async () => {
+beforeEach(async () => {
   await Blog.deleteMany({})
   await Blog.insertMany(helper.initialBlogs)
-})*/
+})
 
 //testejä backendiin
-describe('blog get tests', () => {
+describe('blog GET tests', () => {
   test('blogs are returned as json', async () => {
     await api
       .get('/api/blogs')
@@ -31,8 +31,35 @@ describe('blog get tests', () => {
     //response.body.forEach(b => console.log(b.id)) forEach -tutkiskelua
     response.body.forEach(b => expect(b.id).toBeDefined())
   })
+})
 
-  afterAll(() => {
-    mongoose.connection.close()
+describe('blog POST tests', () => {
+  test('a valid blog can be added ', async () => {
+    const newBlog = {
+      title: 'async/await simplifies making async calls',
+      author: 'blog POST test',
+      url:'https://developer.cdn.mozilla.net/en-US/docs/Learn/JavaScript/Asynchronous/Async_await',
+      likes: 0
+    }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await helper.blogsInDb()
+
+    const blogs = blogsAtEnd.map(r => r.title)
+
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
+    expect(blogs).toContain(
+      'async/await simplifies making async calls'
+    )
   })
+
+})
+
+afterAll(() => {
+  mongoose.connection.close()
 })
