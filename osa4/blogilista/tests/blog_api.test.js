@@ -154,14 +154,14 @@ describe('when there is initially some blogs saved', () => {
     test('succeeds with status code 204', async () => {
       const blogsAtStart = await helper.blogsInDb()
       const blogToUpdate = {
-        id: blogsAtStart[0].id,
         title: blogsAtStart[0].title,
         author: blogsAtStart[0].author,
         url: blogsAtStart[0].url,
-        likes: blogsAtStart[0].likes+50
+        likes: blogsAtStart[0].likes + 50,
+        id: blogsAtStart[0].id
       }
 
-      const updatedBlog = await api
+      await api
         .put(`/api/blogs/${blogToUpdate.id}`)
         .send(blogToUpdate)
         .expect(204)
@@ -169,9 +169,22 @@ describe('when there is initially some blogs saved', () => {
       const blogsAtEnd = await helper.blogsInDb()
 
       expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
-      expect(blogToUpdate).toEqual(updatedBlog)
-      expect(blogToUpdate.content).toEqual(blogsAtEnd[0])
+      expect(blogToUpdate.likes).toBe(blogsAtEnd[0].likes)
+    })
+    test('fails with status code 400 if data invalid', async () => {
+      const newBlog = {
+        url: 'https://developer.cdn.mozilla.net/en-US/docs/Learn/JavaScript/Asynchronous/Async_await',
+        likes: 100
+      }
 
+      await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(400)
+
+      const blogsAtEnd = await helper.blogsInDb()
+
+      expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
     })
   })
 })
