@@ -41,11 +41,16 @@ const mostBlogs = (blogs) => {
     return undefined
   } else {
 
-    const byAuthor = _.maxBy(_.map(_.countBy(blogs, 'author'), (val, key) => ({ author: key, blogs: val })), 'blogs')
+    const byBlogs = _.maxBy(
+      _.map(
+        _.countBy(blogs, 'author'),
+        (val, key) => ({
+          author: key, blogs: val
+        })), 'blogs')
 
     return {
-      'author': byAuthor.author,
-      'blogs': byAuthor.blogs
+      'author': byBlogs.author,
+      'blogs': byBlogs.blogs
     }
   }
 }
@@ -55,18 +60,14 @@ const mostLikes = (blogs) => {
   if (blogs.length === 0) {
     return undefined
   } else {
-
-    const byAuthor = _(blogs).countBy('author')
-    const author = byAuthor.map(a => a)
-
-    const test = _(blogs).groupBy('author')
-    const maara = test.map(a => a)
-
-    console.log('TESTITESTITESTITESTI', JSON.stringify(maara))
+    const reducer = (acc, item) => {
+      return item.likes+acc
+    }
+    const byLikes = _.maxBy(_.chain(_.groupBy(blogs, 'author')).map((val, key) => ({ author: key, likes: val.reduce(reducer, 0) })).value(), 'likes')
 
     return {
-      'author': Object.keys(author)[0],
-      'blogs': author.Object.keys(author)[0]
+      'author': byLikes.author,
+      'likes': byLikes.likes
     }
   }
 }
