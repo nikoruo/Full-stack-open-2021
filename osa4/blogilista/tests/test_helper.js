@@ -5,6 +5,7 @@ const initialUsers = [
   {
     username: 'root',
     passwordHash: '$2b$10$/Vw32UQzq7GX3L2FMqrSMede3s.PnAZ521eDmmscG/fu8PG06O9qi',
+    blogs: ['5a422a851b54a676234d17f7']
   },
   {
     username: 'tTestaaja',
