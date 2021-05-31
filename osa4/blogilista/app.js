@@ -24,6 +24,8 @@ app.use(express.json())
 
 app.use(middleware.requestLogger)
 app.use(middleware.tokenExtractor)
+//middleware.userExtractor on liitetty suoraan blog.js controllerissa tarvittaviin routeihin
+//app.use(middleware.userExtractor)
 
 app.use('/api/login', loginRouter)
 app.use('/api/users', usersRouter)
