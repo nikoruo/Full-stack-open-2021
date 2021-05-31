@@ -73,8 +73,9 @@ describe('when there is initially some blogs saved', () => {
       const newBlog = {
         title: 'async/await simplifies making async calls',
         author: 'blog POST test',
-        url:'https://developer.cdn.mozilla.net/en-US/docs/Learn/JavaScript/Asynchronous/Async_await',
-        likes: 0
+        url: 'https://developer.cdn.mozilla.net/en-US/docs/Learn/JavaScript/Asynchronous/Async_await',
+        likes: 0,
+        user: helper.initialUsers[0].id
       }
 
       await api
