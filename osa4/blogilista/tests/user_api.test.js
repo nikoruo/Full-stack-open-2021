@@ -12,10 +12,11 @@ describe('when there is initially one user at db', () => {
     await User.insertMany(helper.initialUsers)
 
     //const passwordHash = await bcrypt.hash('sekret', 10)
-    //const user = new User({ username: 'root', passwordHash })
+    //const user = new User({ username: 'root1', passwordHash })
     //await user.save()
   })
 
+  //käyttäjätunnukseen liittyvät testit
   test('creation succeeds with a fresh and valid user', async () => {
     const usersAtStart = await helper.usersInDb()
 
@@ -99,26 +100,9 @@ describe('when there is initially one user at db', () => {
       const usersAtEnd = await helper.usersInDb()
       expect(usersAtEnd).toHaveLength(usersAtStart.length)
     })
-    test('creation fails with proper statuscode and message if username does not exist', async () => {
-      const usersAtStart = await helper.usersInDb()
-
-      const newUser = {
-        name: 'Superuser',
-        password: 'salainen',
-      }
-
-      const result = await api
-        .post('/api/users')
-        .send(newUser)
-        .expect(400)
-        .expect('Content-Type', /application\/json/)
-
-      expect(result.body.error).toContain('User validation failed: username: Path `username` is required')
-
-      const usersAtEnd = await helper.usersInDb()
-      expect(usersAtEnd).toHaveLength(usersAtStart.length)
-    })
   })
+
+  //salasanaan liittyvät testit
   describe('testing new user password', () => {
     test('creation fails with proper statuscode and message if password does not exist', async () => {
       const usersAtStart = await helper.usersInDb()
@@ -134,7 +118,7 @@ describe('when there is initially one user at db', () => {
         .expect(400)
         .expect('Content-Type', /application\/json/)
 
-      expect(result.body.error).toContain('User validation failed: username: Path `username` is required')
+      expect(result.body.error).toContain('User validation failed: password: Path `password` is required')
 
       const usersAtEnd = await helper.usersInDb()
       expect(usersAtEnd).toHaveLength(usersAtStart.length)
@@ -154,7 +138,7 @@ describe('when there is initially one user at db', () => {
         .expect(400)
         .expect('Content-Type', /application\/json/)
 
-      expect(result.body.error).toContain('User validation failed: username: Path `username` is required')
+      expect(result.body.error).toContain(`User validation failed: password: Path 'password' ('sa') is shorter than the minimum allowed length (3).`)
 
       const usersAtEnd = await helper.usersInDb()
       expect(usersAtEnd).toHaveLength(usersAtStart.length)
