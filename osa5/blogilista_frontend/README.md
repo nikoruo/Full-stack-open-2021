@@ -1,4 +1,4 @@
-2.6.21 - Osan 5 tehtävät löytyvät tästä hakemistosta
+2.6.21 - Osan 5 bloglista frontend -tehtävät löytyvät tästä hakemistosta
 
 # Getting Started with Create React App
 
