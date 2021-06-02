@@ -1,12 +1,12 @@
 import React from 'react'
 
 //komponentti, jolla palautetaan virheilmoitus
-const Notification = ({ message }) => {
+const Notification = ({ info }) => {
 
-  //const colour = info === null ? 'grey' : info.colour
+  const colour = info === null ? 'grey' : info.color
 
   const notificationStyle = {
-    color: 'grey',
+    color: colour,
     background: 'lightgrey',
     fontSize: '20px',
     borderStyle: 'solid',
@@ -15,13 +15,13 @@ const Notification = ({ message }) => {
     marginBottom: '10px'
   }
 
-  if (message === null) {
+  if (info.message === null) {
     return null
   }
 
   return (
     <div className="error" style={notificationStyle}>
-      {message}
+      {info.message}
     </div>
   )
 }

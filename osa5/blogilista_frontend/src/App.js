@@ -48,12 +48,17 @@ const App = () => {
         'loggedBlogappUser', JSON.stringify(user)
       )
 
+      setErrorMessage({ message: `logged in, welcome ${user.name}`, color: 'green' })
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 3000)
+
       setUser(user)
       setUsername('')
       setPassword('')
       
     } catch (exception) {
-      setErrorMessage('wrong credentials')
+      setErrorMessage({ message:'wrong username or password',color:'red'})
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
@@ -62,6 +67,12 @@ const App = () => {
 
   const handleLogout = () => {
     console.log(`logging out, hope to see you again ${user.name}`)
+
+    setErrorMessage({ message: `Logged out, see you again ${user.name}`, color: 'green' })
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 3000)
+
     blogService.setToken(null)
     setTitle('')
     setAuthor('')
@@ -82,13 +93,18 @@ const App = () => {
         user: user.id
       })
 
+      setErrorMessage({ message: `a new blog ${title} by ${author} added`, color: 'green' })
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 3000)
+
       setBlogs(blogs.concat(blog))
       setTitle('')
       setAuthor('')
       setUrl('')
 
     } catch (exception) {
-      setErrorMessage('wrong credentials')
+      setErrorMessage({ message: 'Error adding a new blog, please try again', color: 'red' })
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
@@ -166,7 +182,7 @@ const App = () => {
   
     return (
       <div>
-        { errorMessage !== null && < Notification message={errorMessage} /> }
+        { errorMessage !== null && < Notification info={errorMessage} /> }
         {user === null ? loginForm() : blogForm()}
 
       </div>
