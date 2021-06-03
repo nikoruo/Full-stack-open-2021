@@ -77,8 +77,8 @@ const App = () => {
   const addBlogPost = async (blogObject) => {
     console.log(`creating new blog ${blogObject.title} by ${user.name}`)
     try {
-      const blog = await blogService.postNew(blogObject)
-
+      let blog = await blogService.postNew(blogObject)
+      blog = {...blog, user: user}
       blogFormRef.current.toggleVisibility()
 
       setErrorMessage({ message: `a new blog ${blog.title} by ${blog.author} added`, color: 'green' })
@@ -89,7 +89,7 @@ const App = () => {
       setBlogs(blogs.concat(blog))
 
     } catch (exception) {
-      setErrorMessage({ message: 'Error adding a new blog, please try again', color: 'red' })
+      setErrorMessage({ message: 'Error while adding a new blog, please try again', color: 'red' })
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
@@ -117,6 +117,27 @@ const App = () => {
     }
   }
 
+  //poista blogi
+  const removeBlog = async (blogObject) => {
+    console.log(`removing blog ${blogObject.title} by ${blogObject.author}`)
+    try {
+      const blog = await blogService.removeBlog(blogObject.id)
+
+      setErrorMessage({ message: `You just removed ${blog.title} by ${blog.author}`, color: 'green' })
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 3000)
+      console.log(blog)
+      setBlogs(blogs.filter(b => b.id !== blogObject.id))
+
+    } catch (exception) {
+      setErrorMessage({ message: 'Error while removing a blog, please try again', color: 'red' })
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
+  }
+
   //kirjautumisform
   const loginForm = () => {
     return (
@@ -134,7 +155,7 @@ const App = () => {
       </Togglable>
       <p/>
       {blogs.sort((b, a) => a.likes - b.likes).map(blog =>
-        <Blog key={blog.id} blog={blog} likeBlog={ addLike }/>
+        <Blog key={blog.id} blog={blog} likeBlog={addLike} removeBlog={removeBlog} user={user}/>
       )}
     </div>
     )
