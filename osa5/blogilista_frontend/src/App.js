@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
@@ -9,17 +9,14 @@ import blogService from './services/blogs'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [loginVisible, setLoginVisible] = useState(false)
-  //const [showAll, setShowAll] = useState(true)
+  const [createBlogVisible, setCreateBlogVisible] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
 
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
 
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+  const blogFormRef = useRef()
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -77,34 +74,23 @@ const App = () => {
     }, 3000)
 
     blogService.setToken(null)
-    setTitle('')
-    setAuthor('')
-    setUrl('')
     window.localStorage.removeItem('loggedBlogappUser')
     setUser(null)
   }
 
-  const handleBlogPost = async (event) => {
-    event.preventDefault()
-    console.log(`creating new blog ${title} by ${user.name}`)
-
+  const addBlogPost = async (blogObject) => {
+    console.log(`creating new blog ${blogObject.title} by ${user.name}`)
     try {
-      const blog = await blogService.postNew({
-        title: title,
-        author: author,
-        url: url,
-        user: user.id
-      })
+      const blog = await blogService.postNew(blogObject)
 
-      setErrorMessage({ message: `a new blog ${title} by ${author} added`, color: 'green' })
+      blogFormRef.current.toggleVisibility()
+
+      setErrorMessage({ message: `a new blog ${blog.title} by ${blog.author} added`, color: 'green' })
       setTimeout(() => {
         setErrorMessage(null)
       }, 3000)
 
       setBlogs(blogs.concat(blog))
-      setTitle('')
-      setAuthor('')
-      setUrl('')
 
     } catch (exception) {
       setErrorMessage({ message: 'Error adding a new blog, please try again', color: 'red' })
@@ -129,17 +115,9 @@ const App = () => {
   const blogForm = () => (
     <div>
       <h2>blogs</h2>
-      <p>{user.name} logged in <button onClick={ () => handleLogout()}>logout</button></p>
-    <Togglable buttonLabel="create new blog">
-        <BlogForm
-          title={title}
-          author={author}
-          url={url}
-          handleTitleChange={({ target }) => setTitle(target.value)}
-          handleAuthorChange={({ target }) => setAuthor(target.value)}
-          handleUrlChange={({ target }) => setUrl(target.value)}
-          handleSubmit={handleBlogPost}
-        />
+      <p>{user.name} logged in <button onClick={() => handleLogout()}>logout</button></p>
+      <Togglable buttonLabel="create new blog" ref={blogFormRef}>
+        <BlogForm createBlog={addBlogPost} user={user} />
       </Togglable>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
