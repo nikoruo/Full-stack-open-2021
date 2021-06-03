@@ -3,18 +3,21 @@ const User = require('../models/user')
 
 const initialUsers = [
   {
+	_id: '60b8850d6775eb5450a553ad',
     username: 'root',
 	name: 'root',
     passwordHash: '$2b$10$/Vw32UQzq7GX3L2FMqrSMede3s.PnAZ521eDmmscG/fu8PG06O9qi',
     blogs: ['5a422a851b54a676234d17f7','5a422aa71b54a676234d17f8']
   },
   {
+	_id: '60b8850d6775eb5450a553ae',
     username: 'tTestaaja',
     name: 'Teppo Testaaja',
     passwordHash: '$2b$10$Y8PaANoSMpKHAPGyLdY09ed9c.wKkY.J0Pl8mjuDrAcuKzXblsTp2',
 	blogs: ['5a422b3a1b54a676234d17f9','5a422ba71b54a676234d17fb']
   },
   {
+	_id: '60b8850d6775eb5450a553af',
     username: 'eEsimerkki',
     name: 'Erkki Esimerkki',
     passwordHash: '$2b$10$7ggUaB39kYHGWytHPOg/qe/ayvpDdqoyLAsw1Jl/X/61mnD9fvC7i',

@@ -11,8 +11,8 @@ describe('when there is initially some blogs saved', () => {
   beforeEach(async () => {
     await User.deleteMany({})
     await Blog.deleteMany({})
-
-    const user = new User({
+	await User.insertMany(helper.initialUsers)
+    /*const user = new User({
       username: 'blog',
 	  name: 'blog',
       password: 'testi'
@@ -26,7 +26,7 @@ describe('when there is initially some blogs saved', () => {
       likes: 10,
       user: user._id
     })
-    await blog.save()
+    await blog.save()*/
 
     await Blog.insertMany(helper.initialBlogs)
 
@@ -45,7 +45,7 @@ describe('when there is initially some blogs saved', () => {
     test('all blogs are returned', async () => {
       const response = await api.get('/api/blogs')
 
-      expect(response.body).toHaveLength(helper.initialBlogs.length+1)
+      expect(response.body).toHaveLength(helper.initialBlogs.length)
     })
 
     test('all blogs are identified by id', async () => {
@@ -118,7 +118,7 @@ describe('when there is initially some blogs saved', () => {
 
       const blogs = blogsAtEnd.map(r => r.title)
 
-      expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 2)
+      expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
       expect(blogs).toContain(
         'async/await simplifies making async calls'
       )
@@ -147,7 +147,7 @@ describe('when there is initially some blogs saved', () => {
 
       const blogs = blogsAtEnd.map(r => r.title)
 
-      expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 2)
+      expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
       expect(blogs).toContain(
         'async/await simplifies making async calls'
       )
@@ -172,7 +172,7 @@ describe('when there is initially some blogs saved', () => {
 
       const blogsAtEnd = await helper.blogsInDb()
 
-      expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length+1)
+      expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
     })
     test('fails with status code 401 if unauthorized', async () => {
       const newBlog = {
@@ -188,7 +188,7 @@ describe('when there is initially some blogs saved', () => {
 
       const blogsAtEnd = await helper.blogsInDb()
 
-      expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length+1)
+      expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
     })
   })
 
@@ -203,7 +203,6 @@ describe('when there is initially some blogs saved', () => {
         user[0],
         process.env.SECRET
       )
-
       await api
         .delete(`/api/blogs/${blogToDelete.id}`)
         .set('Authorization', `bearer ${token}`)
@@ -211,9 +210,7 @@ describe('when there is initially some blogs saved', () => {
 
       const blogsAtEnd = await helper.blogsInDb()
 
-      expect(blogsAtEnd).toHaveLength(
-        helper.initialBlogs.length
-      )
+      expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length - 1)
 
       const contents = blogsAtEnd.map(r => r.title)
 
@@ -241,7 +238,7 @@ describe('when there is initially some blogs saved', () => {
 
       const blogsAtEnd = await helper.blogsInDb()
 
-      expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length+1)
+      expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
       expect(blogToUpdate.likes).toBe(blogsAtEnd[0].likes)
     })
     test('fails with status code 400 if data invalid', async () => {
@@ -260,7 +257,7 @@ describe('when there is initially some blogs saved', () => {
 
       const blogsAtEnd = await helper.blogsInDb()
 
-      expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length+1)
+      expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
     })
   })
 })
