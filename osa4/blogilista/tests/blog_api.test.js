@@ -14,6 +14,7 @@ describe('when there is initially some blogs saved', () => {
 
     const user = new User({
       username: 'blog',
+	  name: 'blog',
       password: 'testi'
     })
     await user.save()

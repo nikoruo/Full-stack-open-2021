@@ -4,18 +4,21 @@ const User = require('../models/user')
 const initialUsers = [
   {
     username: 'root',
+	name: 'root',
     passwordHash: '$2b$10$/Vw32UQzq7GX3L2FMqrSMede3s.PnAZ521eDmmscG/fu8PG06O9qi',
-    blogs: ['5a422a851b54a676234d17f7']
+    blogs: ['5a422a851b54a676234d17f7','5a422aa71b54a676234d17f8']
   },
   {
     username: 'tTestaaja',
     name: 'Teppo Testaaja',
     passwordHash: '$2b$10$Y8PaANoSMpKHAPGyLdY09ed9c.wKkY.J0Pl8mjuDrAcuKzXblsTp2',
+	blogs: ['5a422b3a1b54a676234d17f9','5a422ba71b54a676234d17fb']
   },
   {
     username: 'eEsimerkki',
     name: 'Erkki Esimerkki',
     passwordHash: '$2b$10$7ggUaB39kYHGWytHPOg/qe/ayvpDdqoyLAsw1Jl/X/61mnD9fvC7i',
+	blogs: ['5a422b891b54a676234d17fa','5a422bc61b54a676234d17fc']
   },
 ]
 
@@ -31,6 +34,7 @@ const initialBlogs = [
     author: 'Michael Chan',
     url: 'https://reactpatterns.com/',
     likes: 7,
+	user: initialUsers[0]._id,
     __v: 0
   },
   {
@@ -39,6 +43,7 @@ const initialBlogs = [
     author: 'Edsger W. Dijkstra',
     url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
     likes: 5,
+	user: initialUsers[0]._id,
     __v: 0
   },
   {
@@ -47,6 +52,7 @@ const initialBlogs = [
     author: 'Edsger W. Dijkstra',
     url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
     likes: 12,
+	user: initialUsers[1]._id,
     __v: 0
   },
   {
@@ -55,6 +61,7 @@ const initialBlogs = [
     author: 'Robert C. Martin',
     url: 'http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll',
     likes: 10,
+	user: initialUsers[2]._id,
     __v: 0
   },
   {
@@ -63,6 +70,7 @@ const initialBlogs = [
     author: 'Robert C. Martin',
     url: 'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html',
     likes: 0,
+	user: initialUsers[1]._id,
     __v: 0
   },
   {
@@ -71,6 +79,7 @@ const initialBlogs = [
     author: 'Robert C. Martin',
     url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
     likes: 2,
+	user: initialUsers[2]._id,
     __v: 0
   }
 ]
