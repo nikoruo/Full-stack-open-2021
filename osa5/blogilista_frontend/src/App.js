@@ -133,7 +133,7 @@ const App = () => {
         <BlogForm createBlog={addBlogPost} user={user} />
       </Togglable>
       <p/>
-      {blogs.map(blog =>
+      {blogs.sort((b, a) => a.likes - b.likes).map(blog =>
         <Blog key={blog.id} blog={blog} likeBlog={ addLike }/>
       )}
     </div>
