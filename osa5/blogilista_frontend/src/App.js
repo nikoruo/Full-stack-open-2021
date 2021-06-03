@@ -96,6 +96,27 @@ const App = () => {
     }
   }
 
+  //lisätään blogille tykkäys
+  const addLike = async (blogObject) => {
+    console.log(`giving like to ${blogObject.title} by ${blogObject.author}`)
+    try {
+      const blog = await blogService.addLike(blogObject)
+
+      setErrorMessage({ message: `You just liked ${blog.title} by ${blog.author}`, color: 'green' })
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 3000)
+      console.log(blog)
+      setBlogs(blogs.map(b => (b.id !== blogObject.id ? b : { ...blog, user: blogObject.user})))
+
+    } catch (exception) {
+      setErrorMessage({ message: 'Error while liking a blog, please try again', color: 'red' })
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
+  }
+
   //kirjautumisform
   const loginForm = () => {
     return (
@@ -113,7 +134,7 @@ const App = () => {
       </Togglable>
       <p/>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} likeBlog={ addLike }/>
       )}
     </div>
     )
