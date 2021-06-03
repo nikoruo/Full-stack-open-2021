@@ -9,21 +9,19 @@ import blogService from './services/blogs'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [createBlogVisible, setCreateBlogVisible] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
-
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
 
   const blogFormRef = useRef()
 
+  //haetaan blogit
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
     )  
   }, [])
 
+  //tarkastetaan localstorage
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
     if (loggedUserJSON) {
@@ -33,14 +31,12 @@ const App = () => {
     }
   }, [])
 
-  const handleLogin = async (event) => {
-    event.preventDefault()
-    console.log(`logging in with ${username} ${password}`)
+  //sisäänkirjautuminen
+  const handleLogin = async (userObject) => {
+    console.log(`logging in with ${userObject.username} ${userObject.password}`)
 
     try {
-      const user = await loginService.login({
-        username, password,
-      })
+      const user = await loginService.login(userObject)
 
       blogService.setToken(user.token)
 
@@ -54,8 +50,6 @@ const App = () => {
       }, 3000)
 
       setUser(user)
-      setUsername('')
-      setPassword('')
       
     } catch (exception) {
       setErrorMessage({ message:'wrong username or password',color:'red'})
@@ -65,6 +59,7 @@ const App = () => {
     }    
   }
 
+  //uloskirjautuminen
   const handleLogout = () => {
     console.log(`logging out, hope to see you again ${user.name}`)
 
@@ -78,6 +73,7 @@ const App = () => {
     setUser(null)
   }
 
+  //uuden blogin postaaminen
   const addBlogPost = async (blogObject) => {
     console.log(`creating new blog ${blogObject.title} by ${user.name}`)
     try {
@@ -100,18 +96,14 @@ const App = () => {
     }
   }
 
+  //kirjautumisform
   const loginForm = () => {
     return (
-          <LoginForm
-            username={username}
-            password={password}
-            handleUsernameChange={({ target }) => setUsername(target.value)}
-            handlePasswordChange={({ target }) => setPassword(target.value)}
-            handleSubmit={handleLogin}
-          />
+          <LoginForm loginUser={handleLogin} />
     )
   }
 
+  //blogiform
   const blogForm = () => (
     <div>
       <h2>blogs</h2>
