@@ -11,26 +11,16 @@ const Blog = ({ blog }) => {
 
   const [visible, setVisible] = useState(false)
 
-  const showInfo = () => {
-    return (
-      <div>
-        {blog.url}
-        likes {blog.likes} <button>like</button>
-        {blog.user.name}
-      </div>
-      )
-  }
-  console.log(blog)
   return (
     <div style={blogStyle}>
-      <div>
-        {blog.title} {blog.author} <button onClick={()=>setVisible(!visible)}>view</button>
+      <div onClick={()=>setVisible(!visible)}>
+        {blog.title} {blog.author} <button onClick={() => setVisible(!visible)}>{ visible ? 'hide' : 'view' }</button>
       </div>
-      {visible ? <div>
-        {blog.url}
-        likes {blog.likes} <button>like</button>
-        {blog.user.name}
-      </div> : null}
+      {visible ? <ul>
+        <li>{blog.url}</li>
+        <li>likes {blog.likes} <button>like</button></li>
+        <li>{blog.user.name}</li>
+      </ul> : null}
     </div>
   )
 }
