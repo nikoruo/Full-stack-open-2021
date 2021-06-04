@@ -18,7 +18,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   //tarkastetaan localstorage
@@ -50,13 +50,13 @@ const App = () => {
       }, 3000)
 
       setUser(user)
-      
+
     } catch (exception) {
-      setErrorMessage({ message:'wrong username or password',color:'red'})
+      setErrorMessage({ message:'wrong username or password',color:'red' })
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
-    }    
+    }
   }
 
   //uloskirjautuminen
@@ -78,7 +78,7 @@ const App = () => {
     console.log(`creating new blog ${blogObject.title} by ${user.name}`)
     try {
       let blog = await blogService.postNew(blogObject)
-      blog = {...blog, user: user}
+      blog = { ...blog, user: user }
       blogFormRef.current.toggleVisibility()
 
       setErrorMessage({ message: `a new blog ${blog.title} by ${blog.author} added`, color: 'green' })
@@ -107,7 +107,7 @@ const App = () => {
         setErrorMessage(null)
       }, 3000)
       console.log(blog)
-      setBlogs(blogs.map(b => (b.id !== blogObject.id ? b : { ...blog, user: blogObject.user})))
+      setBlogs(blogs.map(b => (b.id !== blogObject.id ? b : { ...blog, user: blogObject.user })))
 
     } catch (exception) {
       setErrorMessage({ message: 'Error while liking a blog, please try again', color: 'red' })
@@ -141,7 +141,7 @@ const App = () => {
   //kirjautumisform
   const loginForm = () => {
     return (
-          <LoginForm loginUser={handleLogin} />
+      <LoginForm loginUser={ handleLogin } />
     )
   }
 
@@ -158,15 +158,14 @@ const App = () => {
         <Blog key={blog.id} blog={blog} likeBlog={addLike} removeBlog={removeBlog} user={user}/>
       )}
     </div>
-    )
-  
-    return (
-      <div>
-        { errorMessage !== null && < Notification info={errorMessage} /> }
-        {user === null ? loginForm() : blogForm()}
+  )
 
-      </div>
-    )
+  return (
+    <div>
+      { errorMessage !== null && < Notification info={errorMessage} /> }
+      {user === null ? loginForm() : blogForm()}
+    </div>
+  )
 
 }
 
