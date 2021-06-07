@@ -2,11 +2,13 @@ module.exports = {
   "env": {
       "browser": true,
       "es6": true,
-	  "jest": true
+	  "jest": true,
+	  "cypress/globals": true
   },
   "extends": [ 
       "eslint:recommended",
-      "plugin:react/recommended"
+      "plugin:react/recommended",
+	  "plugin:cypress/recommended"
   ],
   "parserOptions": {
       "ecmaFeatures": {
@@ -16,7 +18,7 @@ module.exports = {
       "sourceType": "module"
   },
   "plugins": [
-      "react"
+      "react", "cypress"
   ],
   "rules": {
       "indent": [
