@@ -39,7 +39,7 @@ describe('Blog app', function () {
     })
   })
 
-  //blogin luominen
+  //sisäänkirjautumisen jälkeen
   describe('When logged in', function () {
     beforeEach(function () {
       cy.login({ username: 'cypress', password: 'secret', id: '60bdf935f30f31361c439b08' })
@@ -61,6 +61,42 @@ describe('Blog app', function () {
       cy.contains('blog to be created cy').parent().find('button').click()
       cy.contains('blog to be created cy').parent().contains('like').parent().find('button').click()
       cy.contains('You just liked blog to be created by cy')
+    })
+
+    //blogit järjestetty oikein
+    it.only('blogs are arranged by likes', function () {
+      cy.createBlog({
+        title: 'blog to be created1',
+        author: 'cy',
+        url: 'no need',
+        likes: '0',
+        user: '60bdf935f30f31361c439b08'
+      })
+
+      cy.createBlog({
+        title: 'blog to be created2',
+        author: 'cy',
+        url: 'no need',
+        likes: '0',
+        user: '60bdf935f30f31361c439b08'
+      })
+
+      cy.get('.sB').each((item) => {
+        cy.wrap(item).click()
+      })
+
+      cy.get('.blog').each((item) => {
+        cy.wrap(item).contains('likes 0')
+      })
+
+      cy.contains('blog to be created1 cy').parent().contains('like').parent().find('button').click()
+      cy.wait(500)
+      cy.get('.blog').then((item) => {
+        cy.wrap(item[0]).contains('likes 1')
+        cy.wrap(item[1]).contains('likes 0')
+        cy.wrap(item[2]).contains('likes 0')
+      })
+
     })
 
     //blogin poistaminen
