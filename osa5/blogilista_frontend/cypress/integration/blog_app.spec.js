@@ -38,4 +38,22 @@ describe('Blog app', function () {
         .should('have.css', 'color', 'rgb(255, 0, 0)')
     })
   })
+
+  //blogin luominen
+  describe('When logged in', function () {
+    beforeEach(function () {
+      cy.login({ username: 'cypress', password: 'secret', id:'60bdf935f30f31361c439b08' })
+    })
+
+    it('A blog can be created', function () {
+      cy.createBlog({
+        title: 'blog to be created',
+        author: 'cy',
+        url: 'no need',
+        user: '60bdf935f30f31361c439b08'
+      })
+
+      cy.get('#blogForm').should('contain', 'blog to be created cy')
+    })
+  })
 })
