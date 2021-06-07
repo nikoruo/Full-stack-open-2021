@@ -5,6 +5,7 @@ import Blog from './Blog'
 
 
 describe('<Blog />', () => {
+  //kun "view" nappulaa ei ole painettu, tulisi näkyä vain title ja author
   test('visibility = false, renders content', () => {
     const blog = {
       title: 'Component testing is done with react-testing-library',
@@ -33,6 +34,7 @@ describe('<Blog />', () => {
     )
   })
 
+  //kun "view" nappulaa painettu, tulisi näkyä myös url ja likes
   test('visibility = true, renders content', async () => {
     const blog = {
       title: 'Component testing is done with react-testing-library',
@@ -61,5 +63,36 @@ describe('<Blog />', () => {
     expect(component.container).toHaveTextContent(
       '10'
     )
+  })
+
+  //tykkäys nappia tulisi pystyä painamaan useamman kerran
+  test('clicking like -button twice', async () => {
+    const blog = {
+      title: 'Component testing is done with react-testing-library',
+      author: 'test',
+      url: 'url',
+      likes: 10,
+      user: {
+        name: 'fireEvent'
+      }
+    }
+    const user = {
+      username: 'fireEvent'
+    }
+
+    const mockHandler = jest.fn()
+
+    const component = render(
+      <Blog blog={blog} user={user} likeBlog={ mockHandler }/>
+    )
+
+    const visibility = component.getByText('view')
+    fireEvent.click(visibility)
+
+    const button = component.getByText('like')
+    fireEvent.click(button)
+    fireEvent.click(button)
+
+    expect(mockHandler.mock.calls).toHaveLength(2)
   })
 })
