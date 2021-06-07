@@ -123,7 +123,7 @@ const App = () => {
     try {
       const blog = await blogService.removeBlog(blogObject.id)
 
-      setErrorMessage({ message: `You just removed ${blog.title} by ${blog.author}`, color: 'green' })
+      setErrorMessage({ message: `You just removed ${blogObject.title} by ${blogObject.author}`, color: 'green' })
       setTimeout(() => {
         setErrorMessage(null)
       }, 3000)
