@@ -15,8 +15,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "coverage": "react-scripts test --env=jsdom --watchAll=false --coverage",
     "eject": "react-scripts eject",
-    "eslint": "eslint ."
+    "eslint": "eslint .",
+    "cypress:open": "cypress open",
+	"test:e2e": "cypress run"
   },
   "eslintConfig": {
     "extends": [
@@ -39,6 +42,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "^5.13.0",
     "@testing-library/react": "^11.2.7",
+    "cypress": "^7.4.0",
     "eslint-plugin-jest": "^24.3.6"
   }
 }

@@ -141,13 +141,13 @@ const App = () => {
   //kirjautumisform
   const loginForm = () => {
     return (
-      <LoginForm loginUser={ handleLogin } />
+      <LoginForm id='loginForm' loginUser={ handleLogin } />
     )
   }
 
   //blogiform
   const blogForm = () => (
-    <div>
+    <div id='blogForm'>
       <h2>blogs</h2>
       <p>{user.name} logged in <button onClick={() => handleLogout()}>logout</button></p>
       <Togglable buttonLabel="create new blog" ref={blogFormRef}>
