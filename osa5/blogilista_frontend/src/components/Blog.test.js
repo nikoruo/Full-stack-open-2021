@@ -5,6 +5,7 @@ import Blog from './Blog'
 
 
 describe('<Blog />', () => {
+
   //kun "view" nappulaa ei ole painettu, tulisi näkyä vain title ja author
   test('visibility = false, renders content', () => {
     const blog = {
@@ -18,7 +19,7 @@ describe('<Blog />', () => {
       <Blog blog={blog} />
     )
 
-    component.debug()
+    //component.debug()
 
     expect(component.container).toHaveTextContent(
       'Component testing is done with react-testing-library'
