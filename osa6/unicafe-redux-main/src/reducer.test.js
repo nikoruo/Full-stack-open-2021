@@ -18,6 +18,8 @@ describe('unicafe reducer', () => {
     expect(newState).toEqual(initialState)
   })
 
+  //seuraavaksi testataan good, neutral, bad ja reset toimivuus
+
   test('good is incremented', () => {
     const action = {
       type: 'GOOD'
