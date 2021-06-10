@@ -23,6 +23,8 @@ const anecdoteReducer = (state = initialState, action) => {
 
   switch (action.type) {
 
+  //1: lisätään annettu ääni anekdootille
+  //2: luodaan uusi anekdootti
   case 'VOTE': {
     const id = action.data.id
     const anecdoteToChange = state.find(n => n.id === id)
@@ -42,6 +44,7 @@ const anecdoteReducer = (state = initialState, action) => {
   }
 }
 
+//action creator, jolla hoidetaan äänen antaminen
 export const voteAnecdote = (id) => {
   console.log('vote', id)
   return {
@@ -50,6 +53,7 @@ export const voteAnecdote = (id) => {
   }
 }
 
+//action creator, jolla hoidetaan uuden anekdootin luominen
 export const createAnecdote = (content) => {
   console.log('create', content)
   return {

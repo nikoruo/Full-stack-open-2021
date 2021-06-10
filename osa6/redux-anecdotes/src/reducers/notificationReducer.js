@@ -2,7 +2,8 @@ const initialState = ''
 
 const notificationReducer = (state = initialState, action) => {
   switch (action.type) {
-
+  //1: lisää notificationin näkyviin
+  //2: poistaa sen näkyvistä
   case 'SET_NOTIFICATION': {
     return action.data.anecdote
   }
@@ -14,6 +15,7 @@ const notificationReducer = (state = initialState, action) => {
   }
 }
 
+//action creator, jolla notificaatio näkyviin
 export const setNotification = (anecdote) => {
   console.log('set notification', anecdote)
   return {
@@ -21,10 +23,11 @@ export const setNotification = (anecdote) => {
     data: { anecdote }
   }
 }
+
+//action creator, jolla notificaatio pois näkyvistä
 export const removeNotification = () => {
   console.log('remove notification')
   return { type: 'REMOVE_NOTIFICATION' }
 }
-
 
 export default notificationReducer

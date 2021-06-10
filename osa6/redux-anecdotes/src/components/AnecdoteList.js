@@ -4,9 +4,15 @@ import { voteAnecdote } from '../reducers/anecdoteReducer'
 import { removeNotification, setNotification } from '../reducers/notificationReducer'
 
 const AnecdoteList = () => {
-  const anecdotes = useSelector(state => state.anecdotes)
+
+  //haetaan storesta ne anekdootit, jotka halutaan näyttää (otetaan siis filtteri huomioon)
+  const anecdotes = useSelector(({ filter, anecdotes }) => {
+    return anecdotes.filter(anecdote => anecdote.content.toLowerCase().includes(filter.toLowerCase()))
+  })
+
   const dispatch = useDispatch()
 
+  //äänen antaminen anekdootille
   const vote = (anecdote) => {
     dispatch(voteAnecdote(anecdote.id))
     dispatch(setNotification(`You voted "${anecdote.content}"`))

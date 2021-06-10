@@ -8,10 +8,11 @@ const Notification = () => {
     padding: 10,
     borderWidth: 1
   }
+
+  //mik‰li notificaatio on annettu, n‰ytet‰‰n se, muutoin palautetaan null
   if (notification === '') {
     return null
   }
-
   return (
     <div style={style}>
       { notification }

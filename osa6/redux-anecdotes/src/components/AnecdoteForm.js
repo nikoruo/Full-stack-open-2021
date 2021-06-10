@@ -7,6 +7,7 @@ const AnecdoteForm = () => {
 
   const dispatch = useDispatch()
 
+  //uuden anekdootin luominen
   const addAnecdote = (event) => {
     event.preventDefault()
     const content = event.target.anecdote.value
