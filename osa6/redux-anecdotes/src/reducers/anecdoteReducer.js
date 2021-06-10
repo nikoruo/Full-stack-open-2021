@@ -34,13 +34,13 @@ const anecdoteReducer = (state = initialState, action) => {
 
     return state.map(anecdote =>
       anecdote.id !== id ? anecdote : changedAnecdote
-    )
+    ).sort((b, a) => a.votes - b.votes)
   }
   case 'NEW': {
-    return [...state, asObject(action.data.content)]
+    return [...state, asObject(action.data.content)].sort((b, a) => a.votes - b.votes)
   }
   default:
-    return state
+    return state.sort((b, a) => a.votes - b.votes)
   }
 }
 
