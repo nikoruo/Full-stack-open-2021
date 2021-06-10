@@ -36,6 +36,9 @@ const anecdoteReducer = (state = initialState, action) => {
       anecdote.id !== id ? anecdote : changedAnecdote
     )
   }
+  case 'NEW': {
+    return [...state, asObject(action.data.content)]
+  }
   default:
     return state
   }
@@ -46,6 +49,14 @@ export const voteAnecdote = (id) => {
   return {
     type: 'VOTE',
     data: { id }
+  }
+}
+
+export const createAnecdote = (content) => {
+  console.log('create', content)
+  return {
+    type: 'NEW',
+    data: { content }
   }
 }
 
