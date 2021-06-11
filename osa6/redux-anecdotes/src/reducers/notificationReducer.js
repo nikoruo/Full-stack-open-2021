@@ -14,11 +14,16 @@ const notificationReducer = (state = '', action) => {
 }
 
 //action creator, jolla notificaatio näkyviin
-export const setNotification = (anecdote) => {
+export const setNotification = (anecdote, time) => {
   console.log('set notification', anecdote)
-  return {
-    type: 'SET_NOTIFICATION',
-    data: { anecdote }
+  return async dispatch => {
+    setTimeout(() => {
+      dispatch(removeNotification())
+    }, time*1000)
+    dispatch({
+      type: 'SET_NOTIFICATION',
+      data: { anecdote }
+    })
   }
 }
 
