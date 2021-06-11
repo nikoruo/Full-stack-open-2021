@@ -1,6 +1,4 @@
-const initialState = ''
-
-const notificationReducer = (state = initialState, action) => {
+const notificationReducer = (state = '', action) => {
   switch (action.type) {
   //1: lis‰‰ notificationin n‰kyviin
   //2: poistaa sen n‰kyvist‰

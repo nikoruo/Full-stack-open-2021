@@ -1,6 +1,4 @@
-const initialState = ''
-
-const filterReducer = (state = initialState, action) => {
+const filterReducer = (state = '', action) => {
   switch (action.type) {
 
   //1: filterin muutos
