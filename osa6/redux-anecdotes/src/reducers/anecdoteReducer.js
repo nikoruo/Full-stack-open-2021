@@ -1,3 +1,5 @@
+import anecdoteService from '../services/anecdotes'
+
 const anecdoteReducer = (state = [], action) => {
 
   switch (action.type) {
@@ -27,10 +29,13 @@ const anecdoteReducer = (state = [], action) => {
 }
 
 //action creator, jolla haetaan anecdootit json serveriltä
-export const initializeAnecdotes = (anecdotes) => {
-  return {
-    type: 'INIT_ANECDOTES',
-    data: anecdotes,
+export const initializeAnecdotes = () => {
+  return async dispatch => {
+    const anecdotes = await anecdoteService.getAll()
+    dispatch({
+      type: 'INIT_ANECDOTES',
+      data: anecdotes,
+    })
   }
 }
 
@@ -46,9 +51,12 @@ export const voteAnecdote = (id) => {
 //action creator, jolla hoidetaan uuden anekdootin luominen
 export const createAnecdote = (content) => {
   console.log('create', content)
-  return {
-    type: 'NEW',
-    data: content
+  return async dispatch => {
+    const newAnecdote = await anecdoteService.createNew(content)
+    dispatch({
+      type: 'NEW',
+      data: newAnecdote
+    })
   }
 }
 
