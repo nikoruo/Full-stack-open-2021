@@ -40,11 +40,15 @@ export const initializeAnecdotes = () => {
 }
 
 //action creator, jolla hoidetaan äänen antaminen
-export const voteAnecdote = (id) => {
-  console.log('vote', id)
-  return {
-    type: 'VOTE',
-    data: { id }
+export const voteAnecdote = (anecdote) => {
+  console.log('vote', anecdote.id)
+  return async dispatch => {
+    const votedAnecdote = await anecdoteService.vote(anecdote)
+    const id = votedAnecdote.id
+    dispatch({
+      type: 'VOTE',
+      data: { id }
+    })
   }
 }
 

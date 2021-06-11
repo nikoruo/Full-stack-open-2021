@@ -14,7 +14,7 @@ const AnecdoteList = () => {
 
   //äänen antaminen anekdootille
   const vote = (anecdote) => {
-    dispatch(voteAnecdote(anecdote.id))
+    dispatch(voteAnecdote(anecdote))
     dispatch(setNotification(`You voted "${anecdote.content}"`))
     setTimeout(() => {
       dispatch(removeNotification())
