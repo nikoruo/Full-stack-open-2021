@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
 
 import {
-  BrowserRouter as Router,
   Switch,
   Route,
   Link,
   Redirect,
   useRouteMatch,
-  useHistory,
+  //useHistory,
 } from 'react-router-dom'
 
 const Menu = () => {
@@ -40,7 +39,7 @@ const About = () => (
     <em>An anecdote is a brief, revealing account of an individual person or an incident.
       Occasionally humorous, anecdotes differ from jokes because their primary purpose is not simply to provoke laughter but to reveal a truth more general than the brief tale itself,
       such as to characterize a person by delineating a specific quirk or trait, to communicate an abstract idea about a person, place, or thing through the concrete details of a short narrative.
-      An anecdote is "a story with a point."</em>
+      An anecdote is &quot;a story with a point.&quot;</em>
 
     <p>Software engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
   </div>
@@ -68,6 +67,10 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
+    props.setNotification(content)
+    setTimeout(() => {
+      props.setNotification('')
+    }, 10000)
   }
 
   return (
@@ -84,7 +87,7 @@ const CreateNew = (props) => {
         </div>
         <div>
           url for more info
-          <input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} />
+          <input name='info' value={info} onChange={(e) => setInfo(e.target.value)} />
         </div>
         <button>create</button>
       </form>
@@ -128,7 +131,7 @@ const App = () => {
     setAnecdotes(anecdotes.concat(anecdote))
   }
 
-  const anecdoteById = (id) =>
+  /*const anecdoteById = (id) =>
     anecdotes.find(a => a.id === id)
 
   const vote = (id) => {
@@ -140,7 +143,7 @@ const App = () => {
     }
 
     setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
-  }
+  }*/
 
   const match = useRouteMatch('/anecdotes/:id')
   const anecdote = match
@@ -148,15 +151,16 @@ const App = () => {
     : null
 
   return (
-    <Router>
+    <div>
       <div>
         <h1>Software anecdotes</h1>
         <Menu />
+        {notification === '' ? null : `a new anecdote ${notification} created!`}
       </div>
 
       <Switch>
         <Route path="/create">
-          <CreateNew addNew={addNew} />
+          {notification === '' ? <CreateNew addNew={addNew} setNotification={setNotification} /> : <Redirect to='/' />}
         </Route>
         <Route path="/about">
           <About />
@@ -170,8 +174,7 @@ const App = () => {
       </Switch>
 
       <Footer />
-
-    </Router>
+    </div>
   )
 }
 
