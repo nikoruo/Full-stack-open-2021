@@ -67,10 +67,7 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
-    props.setNotification(content)
-    setTimeout(() => {
-      props.setNotification('')
-    }, 10000)
+    props.showNotification(content)
   }
 
   return (
@@ -145,6 +142,13 @@ const App = () => {
     setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
   }*/
 
+  const showNotification = (content) => {
+    setNotification(content)
+    setTimeout(() => {
+      setNotification('')
+    }, 10000)
+  }
+
   const match = useRouteMatch('/anecdotes/:id')
   const anecdote = match
     ? anecdotes.find(anecdote => anecdote.id === match.params.id)
@@ -160,7 +164,7 @@ const App = () => {
 
       <Switch>
         <Route path="/create">
-          {notification === '' ? <CreateNew addNew={addNew} setNotification={setNotification} /> : <Redirect to='/' />}
+          {notification === '' ? <CreateNew addNew={addNew} showNotification={showNotification} /> : <Redirect to='/' />}
         </Route>
         <Route path="/about">
           <About />
