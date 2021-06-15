@@ -1,11 +1,15 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
+//import Blog from './Blog'
 
-const BlogForm = ({ createBlog, user }) => {
+const BlogForm = ({ createBlog }) => {
 
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+
+  const loggedUser = useSelector(state => state.user)
 
   const addBlog = (event) => {
     event.preventDefault()
@@ -14,7 +18,7 @@ const BlogForm = ({ createBlog, user }) => {
       title: title,
       author: author,
       url: url,
-      user: user.id
+      user: loggedUser.id
     })
 
     setTitle('')
@@ -63,8 +67,7 @@ const BlogForm = ({ createBlog, user }) => {
 }
 
 BlogForm.propTypes = {
-  createBlog: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired
+  createBlog: PropTypes.func.isRequired
 }
 
 export default BlogForm

@@ -4,75 +4,46 @@ import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
-import loginService from './services/login'
 import blogService from './services/blogs'
-import { useSelector } from 'react-redux'
 import { setNotification } from './reducers/notificationReducer'
-import { useDispatch } from 'react-redux'
+import { checkStorage, logoutUser } from './reducers/loginReducer'
+import { useDispatch, useSelector } from 'react-redux'
+import { initializeBlogs } from './reducers/blogReducer'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [user, setUser] = useState(null)
 
   const blogFormRef = useRef()
-  const notification = useSelector(state => state.notification.notification)
+  const notification = useSelector(state => state.notification)
+  const loggedUser = useSelector(state => state.user)
   const dispatch = useDispatch()
 
   //haetaan blogit
   useEffect(() => {
+    dispatch(initializeBlogs)
+
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
     )
-  }, [])
+  }, [dispatch])
 
   //tarkastetaan localstorage
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
-    if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      setUser(user)
-      blogService.setToken(user.token)
-    }
+    dispatch(checkStorage())
   }, [])
-
-  //sisäänkirjautuminen
-  const handleLogin = async (userObject) => {
-    console.log(`logging in with ${userObject.username} ${userObject.password}`)
-
-    try {
-      const user = await loginService.login(userObject)
-
-      blogService.setToken(user.token)
-
-      window.localStorage.setItem(
-        'loggedBlogappUser', JSON.stringify(user)
-      )
-      dispatch(setNotification(`logged in, welcome ${user.name}`, 'green', 3))
-
-      setUser(user)
-
-    } catch (exception) {
-      dispatch(setNotification('wrong username or password', 'red', 5))
-    }
-  }
 
   //uloskirjautuminen
   const handleLogout = () => {
-    console.log(`logging out, hope to see you again ${user.name}`)
-
-    dispatch(setNotification(`logged out, see you again ${user.name}`, 'green', 3))
-
-    blogService.setToken(null)
-    window.localStorage.removeItem('loggedBlogappUser')
-    setUser(null)
+    console.log(`logging out, hope to see you again ${loggedUser.name}`)
+    dispatch(logoutUser())
   }
 
   //uuden blogin postaaminen
   const addBlogPost = async (blogObject) => {
-    console.log(`creating new blog ${blogObject.title} by ${user.name}`)
+    console.log(`creating new blog ${blogObject.title} by ${loggedUser.name}`)
     try {
       let blog = await blogService.postNew(blogObject)
-      blog = { ...blog, user: user }
+      blog = { ...blog, user: loggedUser }
       blogFormRef.current.toggleVisibility()
 
       dispatch(setNotification(`a new blog ${blogObject.title} by ${blogObject.author} added`, 'green', 3))
@@ -117,29 +88,29 @@ const App = () => {
   //kirjautumisform
   const loginForm = () => {
     return (
-      <LoginForm id='loginForm' loginUser={ handleLogin } />
+      <LoginForm id='loginForm' />
     )
   }
-
+  console.log('loggeduser', loggedUser)
   //blogiform
   const blogForm = () => (
     <div id='blogForm'>
       <h2>blogs</h2>
-      <p>{user.name} logged in <button onClick={() => handleLogout()}>logout</button></p>
+      <p>{loggedUser.name} logged in <button onClick={() => handleLogout()}>logout</button></p>
       <Togglable buttonLabel="create new blog" ref={blogFormRef}>
-        <BlogForm createBlog={addBlogPost} user={user} />
+        <BlogForm createBlog={addBlogPost} />
       </Togglable>
       <p/>
       {blogs.sort((b, a) => a.likes - b.likes).map(blog =>
-        <Blog key={blog.id} blog={blog} likeBlog={addLike} removeBlog={removeBlog} user={user}/>
+        <Blog key={blog.id} blog={blog} likeBlog={addLike} removeBlog={removeBlog} user={loggedUser} />
       )}
     </div>
   )
 
   return (
     <div>
-      { notification !== '' && < Notification />}
-      {user === null ? loginForm() : blogForm()}
+      { notification.text !== '' && < Notification /> }
+      { loggedUser === null ? loginForm() : blogForm() }
     </div>
   )
 

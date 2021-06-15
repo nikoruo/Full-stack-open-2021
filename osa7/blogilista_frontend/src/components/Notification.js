@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 
 //komponentti, jolla palautetaan virheilmoitus
 const Notification = () => {
-  const notification = useSelector(state => state.notification.notification)
+  const notification = useSelector(state => state.notification)
 
   const notificationStyle = {
     color: notification.color,
