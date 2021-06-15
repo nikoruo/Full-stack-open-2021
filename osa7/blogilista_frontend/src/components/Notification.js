@@ -1,12 +1,12 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 
 //komponentti, jolla palautetaan virheilmoitus
-const Notification = ({ info }) => {
-
-  const colour = info === null ? 'grey' : info.color
+const Notification = () => {
+  const notification = useSelector(state => state.notification.notification)
 
   const notificationStyle = {
-    color: colour,
+    color: notification.color,
     background: 'lightgrey',
     fontSize: '20px',
     borderStyle: 'solid',
@@ -15,13 +15,13 @@ const Notification = ({ info }) => {
     marginBottom: '10px'
   }
 
-  if (info.message === null) {
+  if (notification.text === '') {
     return null
   }
 
   return (
     <div className="error" style={notificationStyle}>
-      {info.message}
+      {notification.text}
     </div>
   )
 }

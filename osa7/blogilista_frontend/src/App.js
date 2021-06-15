@@ -6,13 +6,17 @@ import BlogForm from './components/BlogForm'
 import Togglable from './components/Togglable'
 import loginService from './services/login'
 import blogService from './services/blogs'
+import { useSelector } from 'react-redux'
+import { setNotification } from './reducers/notificationReducer'
+import { useDispatch } from 'react-redux'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [errorMessage, setErrorMessage] = useState(null)
   const [user, setUser] = useState(null)
 
   const blogFormRef = useRef()
+  const notification = useSelector(state => state.notification.notification)
+  const dispatch = useDispatch()
 
   //haetaan blogit
   useEffect(() => {
@@ -43,19 +47,12 @@ const App = () => {
       window.localStorage.setItem(
         'loggedBlogappUser', JSON.stringify(user)
       )
-
-      setErrorMessage({ message: `logged in, welcome ${user.name}`, color: 'green' })
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 3000)
+      dispatch(setNotification(`logged in, welcome ${user.name}`, 'green', 3))
 
       setUser(user)
 
     } catch (exception) {
-      setErrorMessage({ message:'wrong username or password',color:'red' })
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      dispatch(setNotification('wrong username or password', 'red', 5))
     }
   }
 
@@ -63,10 +60,7 @@ const App = () => {
   const handleLogout = () => {
     console.log(`logging out, hope to see you again ${user.name}`)
 
-    setErrorMessage({ message: `Logged out, see you again ${user.name}`, color: 'green' })
-    setTimeout(() => {
-      setErrorMessage(null)
-    }, 3000)
+    dispatch(setNotification(`logged out, see you again ${user.name}`, 'green', 3))
 
     blogService.setToken(null)
     window.localStorage.removeItem('loggedBlogappUser')
@@ -81,18 +75,11 @@ const App = () => {
       blog = { ...blog, user: user }
       blogFormRef.current.toggleVisibility()
 
-      setErrorMessage({ message: `a new blog ${blog.title} by ${blog.author} added`, color: 'green' })
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 3000)
-
+      dispatch(setNotification(`a new blog ${blogObject.title} by ${blogObject.author} added`, 'green', 3))
       setBlogs(blogs.concat(blog))
 
     } catch (exception) {
-      setErrorMessage({ message: 'Error while adding a new blog, please try again', color: 'red' })
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      dispatch(setNotification(`error while adding a new blog ${blogObject.title} by ${blogObject.author}, please try again`, 'red', 5))
     }
   }
 
@@ -102,18 +89,13 @@ const App = () => {
     try {
       const blog = await blogService.addLike(blogObject)
 
-      setErrorMessage({ message: `You just liked ${blog.title} by ${blog.author}`, color: 'green' })
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 3000)
+      dispatch(setNotification(`you just liked ${blog.title} by ${blog.author}`, 'green', 3))
+
       console.log(blog)
       setBlogs(blogs.map(b => (b.id !== blogObject.id ? b : { ...blog, user: blogObject.user })))
 
     } catch (exception) {
-      setErrorMessage({ message: 'Error while liking a blog, please try again', color: 'red' })
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      dispatch(setNotification(`error while liking a blog ${blogObject.title} by ${blogObject.author}, please try again`, 'red', 5))
     }
   }
 
@@ -121,20 +103,14 @@ const App = () => {
   const removeBlog = async (blogObject) => {
     console.log(`removing blog ${blogObject.title} by ${blogObject.author}`)
     try {
-      const blog = await blogService.removeBlog(blogObject.id)
+      await blogService.removeBlog(blogObject.id)
 
-      setErrorMessage({ message: `You just removed ${blogObject.title} by ${blogObject.author}`, color: 'green' })
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 3000)
-      console.log(blog)
+      dispatch(setNotification(`you just removed ${blogObject.title} by ${blogObject.author}`, 'green', 3))
+
       setBlogs(blogs.filter(b => b.id !== blogObject.id))
 
     } catch (exception) {
-      setErrorMessage({ message: 'Error while removing a blog, please try again', color: 'red' })
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      dispatch(setNotification(`error while removing a blog ${blogObject.title} by ${blogObject.author}, please try again`, 'red', 5))
     }
   }
 
@@ -162,7 +138,7 @@ const App = () => {
 
   return (
     <div>
-      { errorMessage !== null && < Notification info={errorMessage} /> }
+      { notification !== '' && < Notification />}
       {user === null ? loginForm() : blogForm()}
     </div>
   )
