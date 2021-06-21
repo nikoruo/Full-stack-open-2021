@@ -5,6 +5,7 @@ import { checkStorage } from './reducers/loginReducer'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeBlogs } from './reducers/blogReducer'
 import BlogPage from './components/BlogPage'
+import NavBar from './components/NavBar'
 
 const App = () => {
 
@@ -25,8 +26,13 @@ const App = () => {
   //app
   return (
     <div>
-      { notification.text !== '' && < Notification />}
-      { loggedUser === null ? <LoginForm id='loginForm' /> : <BlogPage /> }
+      <NavBar/>
+      <div>
+        { notification.text !== '' && < Notification />}
+        {loggedUser === null ?
+          <LoginForm id='loginForm' />
+          : <BlogPage />}
+      </div>
     </div>
   )
 

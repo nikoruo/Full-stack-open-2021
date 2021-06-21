@@ -58,17 +58,13 @@ export const checkStorage = () => {
   return { type: 'LOGOUT' }
 }
 
-//action creator, jolla notificaatio pois näkyvistä
+//action creator, jolla kirjaudutaan ulos
 export const logoutUser = () => {
-  return async dispatch => {
-    //const dispatch = useDispatch()
-    //const loggedUser = useSelector(state => state.user)
-
-    console.log('logging out')
+  return async dispatch => {console.log('logging out')
     blogService.setToken(null)
     window.localStorage.removeItem('loggedBlogappUser')
     dispatch(setNotification('logged out, see you again', 'green', 3))
-    return { type: 'LOGOUT' }
+    dispatch({ type: 'LOGOUT' })
   }
 }
 

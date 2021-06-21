@@ -5,7 +5,6 @@ import Blog from './Blog'
 import { useDispatch, useSelector } from 'react-redux'
 import { createBlog, voteBlog, deleteBlog } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
-import { logoutUser } from '../reducers/loginReducer'
 
 const BlogPage = () => {
 
@@ -13,12 +12,6 @@ const BlogPage = () => {
   const blogs = useSelector(state => state.blogs)
   const dispatch = useDispatch()
   const blogFormRef = useRef()
-
-  //uloskirjautuminen
-  const handleLogout = () => {
-    console.log(`logging out, hope to see you again ${loggedUser.name}`)
-    dispatch(logoutUser())
-  }
 
   //uuden blogin postaaminen
   const addBlogPost = async (blogObject) => {
@@ -61,7 +54,6 @@ const BlogPage = () => {
   return (
     <div id='blogForm'>
       <h2>blogs</h2>
-      <p>{loggedUser.name} logged in <button onClick={() => handleLogout()}>logout</button></p>
       <Togglable buttonLabel="create new blog" ref={blogFormRef}>
         <BlogForm createBlog={addBlogPost} />
       </Togglable>
