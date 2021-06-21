@@ -29,7 +29,6 @@ export const loginUser = (user) => {
       window.localStorage.setItem(
         'loggedBlogappUser', JSON.stringify(loggedUser)
       )
-      console.log('rearae',loggedUser)
       dispatch(setNotification(`logged in, welcome ${loggedUser.name}`, 'green', 3))
 
       dispatch({
