@@ -7,6 +7,7 @@ const blogReducer = (state = [], action) => {
   //2: luodaan uusi blogi
   //3: poistetaan blogi
   //4: haetaan blogit kannasta
+
   case 'VOTE': {
     const id = action.data.id
     const blogToChange = state.find(n => n.id === id)

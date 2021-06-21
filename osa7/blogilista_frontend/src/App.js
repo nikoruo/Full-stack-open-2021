@@ -6,6 +6,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { initializeBlogs } from './reducers/blogReducer'
 import BlogPage from './components/BlogPage'
 import NavBar from './components/NavBar'
+import BlogInfo from './components/BlogInfo'
+import Users from './components/Users'
+import {
+  Route, Switch, Redirect
+} from 'react-router-dom'
 
 const App = () => {
 
@@ -26,13 +31,32 @@ const App = () => {
   //app
   return (
     <div>
-      <NavBar/>
-      <div>
-        { notification.text !== '' && < Notification />}
+      <NavBar />
+      { notification.text !== '' && < Notification />}
+      <h3>blog app</h3>
+
+      <Switch>
+        <Route path="/blogs/:id">
+          <BlogInfo />
+        </Route>
+        <Route path="/blogs">
+          <Redirect to='/' />
+        </Route>
+        <Route path="/users">
+          <Users />
+        </Route>
+        <Route path="/login">
+          <LoginForm id='loginForm'/>
+        </Route>
+        <Route path="/">
+          <BlogPage />
+        </Route>
+
+
         {loggedUser === null ?
           <LoginForm id='loginForm' />
           : <BlogPage />}
-      </div>
+      </Switch>
     </div>
   )
 

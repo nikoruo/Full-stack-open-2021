@@ -1,8 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
+import {
+  Link
+} from 'react-router-dom'
 
-const Blog = ({ blog, likeBlog, user, removeBlog }) => {
-  const blogStyle = {
+const Blog = ({ blog, likeBlog, user, removeBlog, action }) => {
+  const containerStyle = {
     paddingTop: 10,
     paddingLeft: 2,
     border: 'solid',
@@ -14,8 +17,6 @@ const Blog = ({ blog, likeBlog, user, removeBlog }) => {
     backgroundColor: 'CornflowerBlue',
     borderRadius: 12
   }
-
-  const [visible, setVisible] = useState(false)
 
   const addLike = () => {
     likeBlog({
@@ -33,22 +34,24 @@ const Blog = ({ blog, likeBlog, user, removeBlog }) => {
       removeBlog(blog)
     }
   }
-
-  return (
-    <div style={blogStyle} className='blog'>
-      <div onClick={() => setVisible(!visible)}>
-        {blog.title} {blog.author} <button className='sB' onClick={() => setVisible(!visible)}>{ visible ? 'hide' : 'view' }</button>
-      </div>
-      {visible ?
+  if (action) {
+    return (
+      <div style={containerStyle} className='blog'>
         <div>
+          <h2>{blog.title} by {blog.author}</h2>
           <ul>
             <li>{blog.url}</li>
-            <li>likes {blog.likes} <button onClick={ addLike }>like</button></li>
+            <li>likes {blog.likes} <button onClick={addLike}>like</button></li>
             <li>{blog.user.name}</li>
           </ul>
           {user.username === blog.user.username ? <button className='dB' style={buttonStyle} onClick={rmvBlog}>remove</button> : null}
         </div>
-        : null}
+      </div>
+    )
+  }
+  return (
+    <div style={containerStyle} className='blog'>
+      <Link to={`/blogs/${blog.id}`}>{blog.title} {blog.author}</Link>
     </div>
   )
 }

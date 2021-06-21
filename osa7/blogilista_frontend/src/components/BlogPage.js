@@ -53,13 +53,12 @@ const BlogPage = () => {
 
   return (
     <div id='blogForm'>
-      <h2>blogs</h2>
       <Togglable buttonLabel="create new blog" ref={blogFormRef}>
         <BlogForm createBlog={addBlogPost} />
       </Togglable>
       <p />
       {blogs.sort((b, a) => a.likes - b.likes).map(blog =>
-        <Blog key={blog.id} blog={blog} likeBlog={addLike} removeBlog={removeBlog} user={loggedUser} />
+        <Blog key={blog.id} blog={blog} likeBlog={addLike} removeBlog={removeBlog} user={loggedUser} action={false} />
       )}
     </div>
   )
