@@ -4,6 +4,7 @@ import LoginForm from './components/LoginForm'
 import { checkStorage } from './reducers/loginReducer'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeBlogs } from './reducers/blogReducer'
+import { initializeUsers } from './reducers/userReducer'
 import BlogPage from './components/BlogPage'
 import NavBar from './components/NavBar'
 import BlogInfo from './components/BlogInfo'
@@ -21,6 +22,7 @@ const App = () => {
   //haetaan blogit
   useEffect(() => {
     dispatch(initializeBlogs())
+    dispatch(initializeUsers())
   }, [dispatch])
 
   //tarkastetaan localstorage
