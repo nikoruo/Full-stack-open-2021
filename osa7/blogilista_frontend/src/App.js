@@ -91,7 +91,7 @@ const App = () => {
       <LoginForm id='loginForm' />
     )
   }
-  console.log('loggeduser', loggedUser)
+
   //blogiform
   const blogForm = () => (
     <div id='blogForm'>
