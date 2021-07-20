@@ -38,6 +38,7 @@ const App = () => {
       <h3>blog app</h3>
 
       <Switch>
+
         <Route path="/blogs/:id">
           <BlogInfo />
         </Route>
@@ -51,13 +52,9 @@ const App = () => {
           <LoginForm id='loginForm'/>
         </Route>
         <Route path="/">
-          <BlogPage />
+          {loggedUser ? < BlogPage /> : <Redirect to='/login' />}
         </Route>
 
-
-        {loggedUser === null ?
-          <LoginForm id='loginForm' />
-          : <BlogPage />}
       </Switch>
     </div>
   )

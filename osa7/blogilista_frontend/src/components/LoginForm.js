@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import { loginUser } from '../reducers/loginReducer'
 
 const LoginForm = () => {
@@ -8,16 +9,22 @@ const LoginForm = () => {
   const [password, setPassword] = useState('')
 
   const dispatch = useDispatch()
+  const history = useHistory()
 
   //sisäänkirjautuminen
   const handleLogin = async (event) => {
     event.preventDefault()
+    try {
+      console.log(`logging in with ${username} ${password}`)
+      await dispatch(loginUser({ username, password }))
 
-    console.log(`logging in with ${username} ${password}`)
-    dispatch(loginUser({ username, password }))
+      history.push('/')
 
-    setUsername('')
-    setPassword('')
+      setUsername('')
+      setPassword('')
+    } catch {
+      console.log('loggin in failed')
+    }
   }
 
   return (

@@ -4,6 +4,7 @@ import {
   useRouteMatch
 } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+import { useHistory } from 'react-router-dom'
 import { voteBlog, deleteBlog } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
 import Blog from './Blog'
@@ -13,6 +14,7 @@ const BlogInfo = () => {
   const blogs = useSelector(state => state.blogs)
   const loggedUser = useSelector(state => state.user)
   const dispatch = useDispatch()
+  const history = useHistory()
 
   const match = useRouteMatch('/blogs/:id')
   console.log('info', match.params.id)
@@ -40,6 +42,7 @@ const BlogInfo = () => {
     console.log(`removing blog ${blogObject.title} by ${blogObject.author}`)
     try {
       dispatch(deleteBlog(blogObject.id))
+      history.push('/blogs')
       dispatch(setNotification(`you just removed ${blogObject.title} by ${blogObject.author}`, 'green', 3))
     } catch (exception) {
       dispatch(setNotification(`error while removing a blog ${blogObject.title} by ${blogObject.author}, please try again`, 'red', 5))

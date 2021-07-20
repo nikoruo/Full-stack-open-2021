@@ -19,8 +19,8 @@ const NavBar = () => {
   //uloskirjautuminen
   const handleLogout = () => {
     console.log(`logging out, hope to see you again ${loggedUser.name}`)
+    history.push('/login')
     dispatch(logoutUser())
-    history.push('/')
   }
 
   //mikäli käyttäjä on kirjautunut
