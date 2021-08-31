@@ -17,11 +17,10 @@ const LoginForm = () => {
     try {
       console.log(`logging in with ${username} ${password}`)
       await dispatch(loginUser({ username, password }))
-
-      history.push('/')
-
       setUsername('')
       setPassword('')
+      history.push('/')
+
     } catch {
       console.log('loggin in failed')
     }

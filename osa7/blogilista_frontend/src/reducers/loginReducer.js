@@ -18,7 +18,7 @@ const loginReducer = (state = { user: null }, action) => {
   }
 }
 
-//action creator, jolla notificaatio näkyviin
+//action creator, jolla kirjaudutaan sisään
 export const loginUser = (user) => {
   console.log('loggin in user', user.username)
   return async dispatch => {
@@ -35,6 +35,7 @@ export const loginUser = (user) => {
         type: 'LOGIN',
         data: loggedUser,
       })
+
     } catch (exception){
       dispatch(setNotification('wrong username or password', 'red', 5))
     }
