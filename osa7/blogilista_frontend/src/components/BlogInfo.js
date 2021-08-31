@@ -1,10 +1,12 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 import {
-  useRouteMatch
+  useSelector,
+  useDispatch
+} from 'react-redux'
+import {
+  useRouteMatch,
+  useHistory
 } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
 import { voteBlog, deleteBlog } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
 import Blog from './Blog'

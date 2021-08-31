@@ -12,6 +12,7 @@ import Users from './components/Users'
 import {
   Route, Switch, Redirect
 } from 'react-router-dom'
+import UserInfo from './components/UserInfo'
 
 const App = () => {
 
@@ -44,6 +45,9 @@ const App = () => {
         </Route>
         <Route path="/blogs">
           <Redirect to='/' />
+        </Route>
+        <Route path="/users/:id">
+          <UserInfo />
         </Route>
         <Route path="/users">
           <Users />
