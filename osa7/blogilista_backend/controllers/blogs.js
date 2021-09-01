@@ -80,12 +80,35 @@ blogsRouter.put('/:id', async (request, response, next) => {
       author: body.author,
       url: body.url,
       likes: body.likes === undefined ? 0 : body.likes,
-      id: body.id
+      id: body.id,
+      comments: body.comments
     }
     const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
 
     response.status(200).json(updatedBlog.toJSON())
   }
+})
+
+//uusi kommentti blogiin
+blogsRouter.post('/:id/comments', async (request, response, next) => {
+  const blog = await Blog.findById(request.params.id)
+  const comments = request.body.comments
+
+  blog.comments = blog.comments.concat(comments)
+
+  //const body = request.body
+  /*const blog = new Blog({
+    title: body.title,
+    author: body.author,
+    url: body.url,
+    likes: body.likes === undefined ? 0 : body.likes,
+    comments: body.comments.concat(comments)
+  })*/
+
+  const savedBlog = await blog.save()
+
+  response.status(201).json(savedBlog.toJSON())
+
 })
 
 module.exports = blogsRouter
