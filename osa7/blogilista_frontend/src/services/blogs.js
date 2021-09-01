@@ -33,10 +33,13 @@ const addLike = async (blog) => {
 
 //lisää kommentti
 const postComment = async (blog) => {
+  const comments = {
+    comments: blog.comments
+  }
   const config = {
     headers: { Authorization: token },
   }
-  const response = await axios.post(`${baseUrl}/${blog.id}/comments`, blog.comments, config)
+  const response = await axios.post(`${baseUrl}/${blog.id}/comments`, comments, config)
   return response.data
 }
 
