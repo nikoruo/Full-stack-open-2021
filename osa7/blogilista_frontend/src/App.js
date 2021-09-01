@@ -33,10 +33,9 @@ const App = () => {
 
   //app
   return (
-    <div>
+    <div className="container">
       <NavBar />
       { notification.text !== '' && < Notification />}
-      <h3>blog app</h3>
 
       <Switch>
 

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { ListGroup } from 'react-bootstrap'
 
 const Comments = ({ blog, addComments }) => {
   const [comment, setComment] = useState('')
@@ -9,7 +10,8 @@ const Comments = ({ blog, addComments }) => {
     border: 'solid',
     borderWidth: 1,
     marginBottom: 5,
-    marginLeft: 50
+    marginLeft: 50,
+    marginRight: 50
   }
 
   const addComment = () => {
@@ -21,7 +23,7 @@ const Comments = ({ blog, addComments }) => {
     setComment('')
   }
 
-  const comments = blog.comments.map(comment => <li key={comment}>{comment}</li>)
+  const comments = blog.comments.map(comment => <ListGroup.Item key={comment}>{comment}</ListGroup.Item>)
 
   return (
     <div style={containerStyle} className='blog'>
@@ -37,9 +39,9 @@ const Comments = ({ blog, addComments }) => {
           />
           <button onClick={addComment}>add comment</button>
         </div>
-        <ul>
+        <ListGroup>
           {comments}
-        </ul>
+        </ListGroup>
       </div>
     </div>
   )

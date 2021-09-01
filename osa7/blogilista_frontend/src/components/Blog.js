@@ -3,18 +3,18 @@ import PropTypes from 'prop-types'
 import {
   Link
 } from 'react-router-dom'
+import { Button, ListGroup } from 'react-bootstrap'
 
 const Blog = ({ blog, likeBlog, user, removeBlog, action }) => {
   const containerStyle = {
     paddingTop: 10,
     paddingLeft: 2,
-    border: 'solid',
     borderWidth: 1,
     marginBottom: 5
   }
 
   const buttonStyle = {
-    backgroundColor: 'CornflowerBlue',
+    backgroundColor: 'red',
     borderRadius: 12
   }
 
@@ -38,20 +38,20 @@ const Blog = ({ blog, likeBlog, user, removeBlog, action }) => {
     return (
       <div style={containerStyle} className='blog'>
         <div>
-          <h2>{blog.title} by {blog.author}</h2>
-          <ul>
-            <li>{blog.url}</li>
-            <li>likes {blog.likes} <button onClick={addLike}>like</button></li>
-            <li>{blog.user.name}</li>
-          </ul>
-          {user.username === blog.user.username ? <button className='dB' style={buttonStyle} onClick={rmvBlog}>remove</button> : null}
+          <h2>{blog.title} by author {blog.author}</h2>
+          <ListGroup variant="flush">
+            <ListGroup.Item>Url: {blog.url}</ListGroup.Item>
+            <ListGroup.Item>Likes: {blog.likes} <button onClick={addLike}>Like</button></ListGroup.Item>
+            <ListGroup.Item>Added by: {blog.user.name}</ListGroup.Item>
+          </ListGroup>
+          {user.username === blog.user.username ? <Button className='dB' style={buttonStyle} onClick={rmvBlog}>remove</Button> : null}
         </div>
       </div>
     )
   }
   return (
     <div style={containerStyle} className='blog'>
-      <Link to={`/blogs/${blog.id}`}>{blog.title} {blog.author}</Link>
+      <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
     </div>
   )
 }

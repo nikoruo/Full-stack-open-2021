@@ -5,6 +5,7 @@ import Blog from './Blog'
 import { useDispatch, useSelector } from 'react-redux'
 import { createBlog } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
+import { Table } from 'react-bootstrap'
 
 const BlogPage = () => {
 
@@ -31,9 +32,24 @@ const BlogPage = () => {
         <BlogForm createBlog={addBlogPost} />
       </Togglable>
       <p />
-      {blogs.sort((b, a) => a.likes - b.likes).map(blog =>
-        <Blog key={blog.id} blog={blog} action={false} />
-      )}
+      <Table striped bordered>
+        <tbody>
+          <tr>
+            <th>Blog</th>
+            <th>Author</th>
+          </tr>
+          {blogs.sort((b, a) => a.likes - b.likes).map(blog =>
+            <tr key={blog.id}>
+              <td>
+                <Blog key={blog.id} blog={blog} action={false} />
+              </td>
+              <td>
+                {blog.author}
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </Table>
     </div>
   )
 }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
+import { Button, Form } from 'react-bootstrap'
 
 const BlogForm = ({ createBlog }) => {
 
@@ -27,40 +28,36 @@ const BlogForm = ({ createBlog }) => {
 
   return (
     <div>
-      <form id='form' onSubmit={addBlog}>
-        <h2>create new</h2>
-        <div>
-          title:
-          <input
+      <Form style={{ borderStyle: 'solid' }} id='form' onSubmit={addBlog}>
+        <Form.Group style={{ padding: 5 }}>
+          <h2>create new</h2>
+          <Form.Label>title</Form.Label>
+          <Form.Control
             id='title'
             type="text"
             value={title}
             name="title"
             onChange={({ target }) => setTitle(target.value)}
           />
-        </div>
-        <div>
-          author:
-          <input
+          <Form.Label>author</Form.Label>
+          <Form.Control
             id='author'
             type="text"
             value={author}
             name="author"
             onChange={({ target }) => setAuthor(target.value)}
           />
-        </div>
-        <div>
-          url:
-          <input
+          <Form.Label>url</Form.Label>
+          <Form.Control
             id='url'
             type="text"
             value={url}
             name="url"
             onChange={({ target }) => setUrl(target.value)}
           />
-        </div>
-        <button type="submit">create</button>
-      </form>
+          <Button type="submit">create</Button>
+        </Form.Group>
+      </Form>
     </div>
   )
 }

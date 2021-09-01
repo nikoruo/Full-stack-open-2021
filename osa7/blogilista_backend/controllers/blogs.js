@@ -93,8 +93,11 @@ blogsRouter.put('/:id', async (request, response, next) => {
 blogsRouter.post('/:id/comments', async (request, response, next) => {
   const blog = await Blog.findById(request.params.id)
   const comments = request.body.comments
-
-  blog.comments = blog.comments.concat(comments)
+  if (!comments) {
+    blog.comments = comments
+  } else {
+    blog.comments = blog.comments.concat(comments)
+  }
 
   //const body = request.body
   /*const blog = new Blog({
