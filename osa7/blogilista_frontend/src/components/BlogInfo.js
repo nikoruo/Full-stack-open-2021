@@ -10,6 +10,7 @@ import {
 import { voteBlog, deleteBlog } from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
 import Blog from './Blog'
+import Comments from './Comments'
 
 const BlogInfo = () => {
 
@@ -53,7 +54,8 @@ const BlogInfo = () => {
 
   return (
     <div>
-      <Blog key={blog.id} blog={blog} likeBlog={addLike} removeBlog={removeBlog} user={loggedUser} action={true}/>
+      <Blog key={blog.id} blog={blog} likeBlog={addLike} removeBlog={removeBlog} user={loggedUser} action={true} />
+      <Comments key={blog.id} blog={blog} likeBlog={addLike} removeBlog={removeBlog} user={loggedUser} action={true} />
     </div>
   )
 }
