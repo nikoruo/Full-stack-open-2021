@@ -13,9 +13,12 @@ const Comments = ({ blog, addComments }) => {
   }
 
   const addComment = () => {
+    event.preventDefault()
     addComments({
-      comments: comment
+      comments: comment,
+      id: blog.id
     })
+    setComment('')
   }
 
   const comments = blog.comments.map(comment => <li key={comment}>{comment}</li>)

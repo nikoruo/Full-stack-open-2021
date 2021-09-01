@@ -7,7 +7,11 @@ import {
   useRouteMatch,
   useHistory
 } from 'react-router-dom'
-import { voteBlog, deleteBlog } from '../reducers/blogReducer'
+import {
+  voteBlog,
+  deleteBlog,
+  addComment
+} from '../reducers/blogReducer'
 import { setNotification } from '../reducers/notificationReducer'
 import Blog from './Blog'
 import Comments from './Comments'
@@ -52,10 +56,21 @@ const BlogInfo = () => {
     }
   }
 
+  //lisää kommentti
+  const addComments = async (blogObject) => {
+    console.log(`adding comment ${blogObject.comments}`)
+    try {
+      dispatch(addComment(blogObject))
+      dispatch(setNotification(`you just posted a comment ${blogObject.comments}`, 'green', 3))
+    } catch (exception) {
+      dispatch(setNotification(`error while adding a comment ${blogObject.comments}, please try again`, 'red', 5))
+    }
+  }
+
   return (
     <div>
-      <Blog key={blog.id} blog={blog} likeBlog={addLike} removeBlog={removeBlog} user={loggedUser} action={true} />
-      <Comments key={blog.id} blog={blog} likeBlog={addLike} removeBlog={removeBlog} user={loggedUser} action={true} />
+      <Blog blog={blog} likeBlog={addLike} removeBlog={removeBlog} user={loggedUser} action={true} />
+      <Comments blog={blog} addComments={addComments} />
     </div>
   )
 }

@@ -31,6 +31,15 @@ const addLike = async (blog) => {
   return response.data
 }
 
+//lisää kommentti
+const postComment = async (blog) => {
+  const config = {
+    headers: { Authorization: token },
+  }
+  const response = await axios.post(`${baseUrl}/${blog.id}/comments`, blog.comments, config)
+  return response.data
+}
+
 //poista blogi
 const removeBlog = async (blog) => {
 
@@ -43,4 +52,4 @@ const removeBlog = async (blog) => {
   return response.data
 }
 
-export default { getAll, postNew, setToken, addLike, removeBlog }
+export default { getAll, postNew, setToken, addLike, removeBlog, postComment }

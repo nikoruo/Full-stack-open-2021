@@ -18,6 +18,16 @@ const blogReducer = (state = [], action) => {
       blog.id !== id ? blog : changedBlog
     )
   }
+  case 'COMMENT': {
+    const id = action.data.id
+    const blogToChange = state.find(n => n.id === id)
+    const changedBlog = {
+      ...blogToChange, comments: blogToChange.comments.concat(action.data.content.comments)
+    }
+    return state.map(blog =>
+      blog.id !== id ? blog : changedBlog
+    )
+  }
   case 'NEW': {
     return [...state, { ...action.data.newBlog, user: action.data.user }]
   }
@@ -54,6 +64,19 @@ export const voteBlog = (blog) => {
     dispatch({
       type: 'VOTE',
       data: { id }
+    })
+  }
+}
+
+//action creator, jolla hoidetaan uuden kommentin antaminen
+export const addComment = (content) => {
+  console.log('comment', content.comments)
+  return async dispatch => {
+    const newBlog = await blogService.postComment(content)
+    const id = newBlog.id
+    dispatch({
+      type: 'COMMENT',
+      data: { id, content }
     })
   }
 }
