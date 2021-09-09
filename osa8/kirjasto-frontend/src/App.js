@@ -19,6 +19,7 @@ const App = () => {
   return (
     <div>
       <Notify errorMessage={errorMessage} />
+
       <div>
         <button onClick={() => setPage('authors')}>authors</button>
         <button onClick={() => setPage('books')}>books</button>
@@ -27,6 +28,7 @@ const App = () => {
 
       <Authors
         show={page === 'authors'}
+        setError={notify}
       />
 
       <Books
