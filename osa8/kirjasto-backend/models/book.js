@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 
+//kirjan skeema
 const schema = new mongoose.Schema({
   title: {
     type: String,

@@ -6,6 +6,7 @@ require('dotenv').config()
 const mongoose = require('mongoose')
 const Book = require('./models/book')
 const Author = require('./models/author')
+const { graphql } = require('graphql')
 
 const MONGODB_URI = process.env.MONGODB_URI
 
@@ -100,7 +101,7 @@ let books = [
   },
 ]
 
-//GraphQL schemas
+//GraphQL skeemat
 const typeDefs = gql`
   type Author {
     name: String!
@@ -138,36 +139,41 @@ const typeDefs = gql`
   }
 `
 
+//graphQL kyselyt
 const resolvers = {
   Query: {
     bookCount: () => Book.collection.countDocuments(),
     authorCount: () => Author.collection.countDocuments(),
     allBooks: async (root, args) => {
       if (!args.author && !args.genre) {
-        return await Book.find({})
+        return await Book.find({}).populate('author')
       }
-      let filteredBooks = Book.find({})
+
+      let filteredBooks = Book.find({})      
+
       if (args.author) {
-        filteredBooks = filteredBooks.filter(b => b.author === args.author)
+        const authorId = await Author.findOne({ 'name': args.author })
+        filteredBooks = filteredBooks.find({author: authorId.id})
       }
       if (args.genre) {
-        filteredBooks = filteredBooks.filter(b => b.genres.includes(args.genre))
+        filteredBooks = filteredBooks.find({ genres: { $in: [args.genre] } })
       }
-      return filteredBooks
+      return filteredBooks.populate('author')
     },
     allAuthors: async () => await Author.find({})
   },
 
   Author: {
-    bookCount: (root) => {
-      return books.filter(b => b.author === root.name).length
+    bookCount: async (root) => {
+      return await Book.countDocuments({author: root.id})
     }
   },
 
+  //muutoksia aiheuttavat kyselyt
   Mutation: {
     addBook: async (root, args) => {
 
-      let author = await Author.collection.findOne({ 'name': args.author })
+      let author = await Author.findOne({ 'name': args.author })
 
       if (!author) {
         author = new Author({ name: args.author, id: uuid(), bookCount: 1 })
@@ -179,16 +185,14 @@ const resolvers = {
       return book.save()
     },
 
-    editAuthor: (root, args) => {
-      const author = authors.find(a => a.name === args.name)
+    editAuthor: async (root, args) => {
+      const author = await Author.findOne({ 'name': args.name })
+
       if (!author) {
         return null
       }
 
-      const updatedAuthor = { ...author, born: args.setBornTo }
-      authors = authors.map(a => a.name === args.name ? updatedAuthor : a)
-
-      return updatedAuthor
+      return await Author.findOneAndUpdate({ name: author.name }, { born: args.setBornTo }, {new: true})
     }
   }
 }
