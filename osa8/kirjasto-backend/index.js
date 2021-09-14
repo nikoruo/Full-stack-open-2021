@@ -177,7 +177,7 @@ const resolvers = {
 
     createUser: (root, args) => {
       const user = new User({ username: args.username, favoriteGenre: args.favoriteGenre })
-      console.log('create', user, args.favoriteGenre)
+
       return user.save()
         .catch(error => {
           throw new UserInputError(error.message, {

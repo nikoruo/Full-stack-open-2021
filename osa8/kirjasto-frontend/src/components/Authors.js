@@ -40,7 +40,10 @@ const Authors = (props) => {
           )}
         </tbody>
       </table>
-      <AuthorYearForm setError={props.setError} authors={ authors } />
+      {!props.token ?
+        null
+        : <AuthorYearForm setError={props.setError} authors={authors} />
+      }
     </div>
   )
 }
