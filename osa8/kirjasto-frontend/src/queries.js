@@ -13,8 +13,8 @@ export const ALL_AUTHORS = gql`
 
 //kirjojen haku
 export const ALL_BOOKS = gql`
-  query {
-    allBooks  {
+  query allBooks($genre: String, $author: String){
+    allBooks(genre: $genre, author: $author)  {
       title
       author {
         name
@@ -59,6 +59,16 @@ export const LOGIN = gql`
   mutation login($username: String!, $password: String!) {
     login(username: $username, password: $password)  {
       value
+    }
+  }
+`
+
+//käyttäjän tiedot
+export const ME = gql`
+  query {
+    me  {
+      username
+      favoriteGenre
     }
   }
 `

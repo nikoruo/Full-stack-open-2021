@@ -11,21 +11,17 @@ const Books = (props) => {
 
   const [books, setBooks] = useState([])
 
-  console.log('grene',genre)
-
   useEffect(() => {
     if (!result.loading) {
 
       setBooks(result.data.allBooks || [])
 
       let genret = []
-      //console.log('genres', books)
       result.data.allBooks.forEach(b => {
         if (b.genres) b.genres.forEach(g => {
           if (!genret.includes(g)) genret.push(g)
         })
       })
-      //console.log('genret', genret)
       setGenres(genret)
     }
   }, [result])
@@ -33,7 +29,6 @@ const Books = (props) => {
   useEffect(() => {
     if (!result.loading) {
       if (genre !== null) {
-        //console.log('filter')
         setBooks(result.data.allBooks.filter(b => b.genres.includes(genre)))
       } else {
         setBooks(result.data.allBooks || [])
