@@ -1,10 +1,45 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useQuery } from '@apollo/client'
 import { ALL_BOOKS } from '../queries'
+import Genres from './Genres'
 
 const Books = (props) => {
 
-  const result = useQuery(ALL_BOOKS)
+  let result = useQuery(ALL_BOOKS)
+  const [genres, setGenres] = useState([])
+  const [genre, setGenre] = useState(null)
+
+  const [books, setBooks] = useState([])
+
+  console.log('grene',genre)
+
+  useEffect(() => {
+    if (!result.loading) {
+
+      setBooks(result.data.allBooks || [])
+
+      let genret = []
+      //console.log('genres', books)
+      result.data.allBooks.forEach(b => {
+        if (b.genres) b.genres.forEach(g => {
+          if (!genret.includes(g)) genret.push(g)
+        })
+      })
+      //console.log('genret', genret)
+      setGenres(genret)
+    }
+  }, [result])
+
+  useEffect(() => {
+    if (!result.loading) {
+      if (genre !== null) {
+        //console.log('filter')
+        setBooks(result.data.allBooks.filter(b => b.genres.includes(genre)))
+      } else {
+        setBooks(result.data.allBooks || [])
+      }
+    }
+  }, [genre])
 
   if (!props.show) {
     return null
@@ -13,8 +48,6 @@ const Books = (props) => {
   if (result.loading) {
     return <div>loading...</div>
   }
-
-  const books = result.data.allBooks || []
 
   return (
     <div>
@@ -40,6 +73,9 @@ const Books = (props) => {
           )}
         </tbody>
       </table>
+
+      {genres.length > 0 ? < Genres setGenre={setGenre} genres={genres} /> : null}
+
     </div>
   )
 }
