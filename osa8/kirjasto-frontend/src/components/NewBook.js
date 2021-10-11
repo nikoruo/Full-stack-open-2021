@@ -20,6 +20,7 @@ const NewBook = (props) => {
     return null
   }
 
+  //uuden kirjan luominen
   const submit = async (event) => {
     event.preventDefault()
 
@@ -35,6 +36,7 @@ const NewBook = (props) => {
     setGenre('')
   }
 
+  //genret
   const addGenre = () => {
     setGenres(genres.concat(genre))
     setGenre('')

@@ -7,10 +7,11 @@ const Recommend = (props) => {
   let user = useQuery(ME)
 
   const [fGenre, setFGenre] = useState(null)
-  const [getRBooks, result] = useLazyQuery(ALL_BOOKS, { pollInterval: 5000 })
+  const [getRBooks, result] = useLazyQuery(ALL_BOOKS, { pollInterval: 5000 }) //pollauksella pidetään recommended -näkymä ajantasaisena
 
   const [fBooks, setFBooks] = useState([])
 
+  //tarkistetaan, onko käyttäjän tiedot ladattu, mikäli kyllä, haetaan kirjat ja asetetaan lempigenre
   useEffect(() => {
     if (!user.loading && user.data && user.data.me) {
       setFGenre(user.data.me.favoriteGenre)
@@ -18,6 +19,7 @@ const Recommend = (props) => {
     }
   }, [user])
 
+  //tarkistetaan onko kirjat haettu, mikäli kyllä, haetaan vastauksesta kirjat talteen
   useEffect(() => {
     if (result.data && result.data.allBooks) {
       setFBooks(result.data.allBooks || [])

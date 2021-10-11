@@ -11,9 +11,10 @@ const Books = (props) => {
 
   const [books, setBooks] = useState([])
 
+  //tarkistetaan, onko vastaus kirjojen hakuun tullut, mikäli on, otetaan vastauksesta kirjat talteen
+  //ja haetaan myös kirjojen genret talteen
   useEffect(() => {
     if (!result.loading) {
-
       setBooks(result.data.allBooks || [])
       let genret = []
       result.data.allBooks.forEach(b => {
@@ -25,6 +26,7 @@ const Books = (props) => {
     }
   }, [result])
 
+  //mikäli kirjat on ladattu, filtteröidään näytettäviä kirjoja tarpeenmukaan
   useEffect(() => {
     if (!result.loading) {
       if (genre !== null) {

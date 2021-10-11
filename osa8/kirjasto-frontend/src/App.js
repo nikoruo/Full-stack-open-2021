@@ -27,6 +27,7 @@ const App = () => {
     }, 10000)
   }
 
+  //pidetään huolta välimuistin päivityksestä tilanteessa, jossa backend ilmoittaa uudesta kirjasta
   const updateCacheWith = (addedBook) => {
     const includedIn = (set, object) => set.map(b => b.id).includes(object.id)
 
@@ -39,6 +40,7 @@ const App = () => {
     }
   }
 
+  //tarkkaillaan tuleeko backendistä ilmoituksia uudesta kirjasta
   useSubscription(BOOK_ADDED, {
     onSubscriptionData: ({ subscriptionData }) => {
       const addedBook = subscriptionData.data.bookAdded

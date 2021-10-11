@@ -5,6 +5,7 @@ import AuthorYearForm from './AuthorYearForm'
 
 const Authors = (props) => {
 
+  //haetaan kaikki kirjailijat
   const result = useQuery(ALL_AUTHORS)
 
   if (!props.show) {

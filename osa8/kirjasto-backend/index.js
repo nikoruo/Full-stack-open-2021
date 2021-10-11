@@ -121,11 +121,11 @@ const resolvers = {
 
   },
 
-  Author: {
+  /*Author: {
     bookCount: async (root) => {
       return await Book.countDocuments({author: root.id})
     }
-  },
+  },*/
 
   //muutoksia aiheuttavat kyselyt
   Mutation: {
@@ -138,7 +138,7 @@ const resolvers = {
       let author = await Author.findOne({ 'name': args.author })
 
       if (!author) {
-        author = new Author({ name: args.author, id: uuid(), bookCount: 1 })
+        author = new Author({ name: args.author, id: uuid(), bookCount: 0 })
         try {
           await author.save()
         } catch (error){
@@ -151,6 +151,7 @@ const resolvers = {
       const book = new Book({ ...args, id: uuid(), author: author })
       try {
         await book.save()
+        await Author.findOneAndUpdate({ name: author.name }, { bookCount: author.bookCount + 1 })
       } catch (error){
         throw new UserInputError(error.message, {
           invalidArgs: args,
@@ -159,7 +160,7 @@ const resolvers = {
 
       pubsub.publish('BOOK_ADDED', { bookAdded: book })
 
-      return book
+      return book.populate('author')
     },
 
     editAuthor: async (root, args, { currentUser }) => {
