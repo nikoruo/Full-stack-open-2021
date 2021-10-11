@@ -11,18 +11,27 @@ export const ALL_AUTHORS = gql`
   }
 `
 
+//kirjojen tiedot -fragmentti
+const BOOK_DETAILS = gql`
+  fragment BookDetails on Book {
+    id
+    title
+    author {
+      name
+    }
+    published
+    genres
+  }
+`
+
 //kirjojen haku
 export const ALL_BOOKS = gql`
   query allBooks($genre: String, $author: String){
     allBooks(genre: $genre, author: $author)  {
-      title
-      author {
-        name
-      }
-      published
-      genres
+      ...BookDetails
     }
   }
+  ${BOOK_DETAILS}
 `
 
 //uuden kirjan lis‰‰minen
@@ -34,14 +43,21 @@ export const CREATE_BOOK = gql`
       published: $published,
       genres: $genres
     ) {
-      title
-      author{
-        name
-      }
-      published
-      genres
+     ...BookDetails
     }
   }
+  ${BOOK_DETAILS}
+`
+
+//subscription kirjojen lis‰yksen seurannalle
+export const BOOK_ADDED = gql`
+  subscription {
+    bookAdded {
+      ...BookDetails
+    }
+  }
+
+${BOOK_DETAILS}
 `
 
 //kirjoittajan syntym‰vuoden muokkaus
@@ -66,7 +82,7 @@ export const LOGIN = gql`
 //k‰ytt‰j‰n tiedot
 export const ME = gql`
   query {
-    me  {
+    me {
       username
       favoriteGenre
     }

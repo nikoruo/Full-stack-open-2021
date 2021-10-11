@@ -15,7 +15,6 @@ const Books = (props) => {
     if (!result.loading) {
 
       setBooks(result.data.allBooks || [])
-
       let genret = []
       result.data.allBooks.forEach(b => {
         if (b.genres) b.genres.forEach(g => {
