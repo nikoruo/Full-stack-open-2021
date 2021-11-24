@@ -8,13 +8,13 @@ interface Result {
   ratingDescription: string;
   target: number;
   average: number;
-};
+}
 
 //käyttäjältä saatu syöte
 interface UserInput {
   target: number;
   array: number[];
-};
+}
 
 //eri kategoriat rating -muuttujalle
 const ratingDescriptions = [
@@ -31,11 +31,11 @@ const exerciseParseArguments = (args: Array<string>): UserInput => {
     return {
       target: Number(args[2]),
       array: args.slice(3).map(a => Number(a))
-    }
+    };
   } else {
     throw new Error('Provided values were not in correct form!');
   }
-}
+};
 
 //harjoitusten laskenta ja analysointi
 const calculateExercises = (tDays: number[], target: number): Result => {
@@ -59,9 +59,9 @@ const calculateExercises = (tDays: number[], target: number): Result => {
 //tarkistetaan, kutsutaanko tätä muualta, mikäli ei, suoritetaan
 try {
   const { target, array } = exerciseParseArguments(process.argv);
-  console.log(calculateExercises(array, target))
+  console.log(calculateExercises(array, target));
 } catch (error: unknown) {
-  let errorMessage = 'Something bad happened.'
+  let errorMessage = 'Something bad happened.';
   if (error instanceof Error) {
     errorMessage += ' Error: ' + error.message;
   }

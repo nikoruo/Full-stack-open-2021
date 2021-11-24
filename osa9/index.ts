@@ -14,13 +14,13 @@ app.get('/bmi', (req, res) => {
   let bmi;
 
   if (!height || !weight) {
-    res.send({ error: 'malformatted parameters' })
+    res.send({ error: 'malformatted parameters' });
   } else {
     try {
-      bmi = String(calculateBmi(height, weight))
-      res.send({ weight, height, bmi })
+      bmi = String(calculateBmi(height, weight));
+      res.send({ weight, height, bmi });
     } catch (_) {
-      res.send({ error: 'malformatted parameters' })
+      res.send({ error: 'malformatted parameters' });
     }
   }  
 });
