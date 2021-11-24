@@ -1,4 +1,4 @@
-
+//eri bmi kategoriat, lähteenä wikipedia
 const bmiCategory = [
   'Severe thinness',
   'Moderate thinness',
@@ -10,12 +10,14 @@ const bmiCategory = [
   'Class III Obesity'
 ];
 
+//tarvittavat syötteet käyttäjältä
 interface Measures {
   height: number;
   weight: number;
 }
 
-const bmiParseArguments = (args: Array<string>): Measures => {
+//tarkistetaan käyttäjän syöte
+export const bmiParseArguments = (args: Array<string>): Measures => {
   if (args.length < 4) throw new Error('Not enough arguments');
   if (args.length > 4) throw new Error('Too many arguments');
 
@@ -29,7 +31,8 @@ const bmiParseArguments = (args: Array<string>): Measures => {
   }
 }
 
-const calculateBmi = (height: number, weight: number): string => {
+//bmi laskenta ja määritys
+export const calculateBmi = (height: number, weight: number): string => {
 
   const bmi = weight / height / height * 10000;
 
@@ -61,13 +64,16 @@ const calculateBmi = (height: number, weight: number): string => {
   return 'error';
 }
 
-try {
-  const { height, weight } = bmiParseArguments(process.argv);
-  console.log(calculateBmi(height, weight))
-} catch (error: unknown){
-  let errorMessage = 'Something bad happened.'
-  if (error instanceof Error) {
-    errorMessage += ' Error: ' + error.message;
+//tarkistetaan, kutsutaanko tätä muualta, mikäli ei, suoritetaan
+if (require.main === module) {
+  try {
+    const { height, weight } = bmiParseArguments(process.argv);
+    console.log(calculateBmi(height, weight))
+  } catch (error: unknown) {
+    let errorMessage = 'Something bad happened.'
+    if (error instanceof Error) {
+      errorMessage += ' Error: ' + error.message;
+    }
+    console.log(errorMessage);
   }
-  console.log(errorMessage);
 }

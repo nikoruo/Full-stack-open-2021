@@ -1,4 +1,5 @@
 
+//tarvittavat muuttujat
 interface Result {
   periodLength: number;
   trainingDays: number;
@@ -9,17 +10,20 @@ interface Result {
   average: number;
 };
 
+//käyttäjältä saatu syöte
 interface UserInput {
   target: number;
   array: number[];
 };
 
+//eri kategoriat rating -muuttujalle
 const ratingDescriptions = [
   'You didnt even try',
   'Target is not very far away!',
   'Very good!'
 ];
 
+//syötteen tarkistus
 const exerciseParseArguments = (args: Array<string>): UserInput => {
   if (args.length < 4) throw new Error('Not enough arguments');
 
@@ -33,7 +37,7 @@ const exerciseParseArguments = (args: Array<string>): UserInput => {
   }
 }
 
-
+//harjoitusten laskenta ja analysointi
 const calculateExercises = (tDays: number[], target: number): Result => {
 
   const periodLength = tDays.length;
@@ -52,8 +56,7 @@ const calculateExercises = (tDays: number[], target: number): Result => {
   };
 };
 
-//console.log(calculateExercises([1,0,2,4.5,0,3,1,0,4], 2));
-
+//tarkistetaan, kutsutaanko tätä muualta, mikäli ei, suoritetaan
 try {
   const { target, array } = exerciseParseArguments(process.argv);
   console.log(calculateExercises(array, target))
