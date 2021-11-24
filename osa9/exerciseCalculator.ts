@@ -9,11 +9,30 @@ interface Result {
   average: number;
 };
 
+interface UserInput {
+  target: number;
+  array: number[];
+};
+
 const ratingDescriptions = [
   'You didnt even try',
   'Target is not very far away!',
   'Very good!'
 ];
+
+const exerciseParseArguments = (args: Array<string>): UserInput => {
+  if (args.length < 4) throw new Error('Not enough arguments');
+
+  if (args.slice(2).every(a => !isNaN(Number(a)))) {
+    return {
+      target: Number(args[2]),
+      array: args.slice(3).map(a => Number(a))
+    }
+  } else {
+    throw new Error('Provided values were not in correct form!');
+  }
+}
+
 
 const calculateExercises = (tDays: number[], target: number): Result => {
 
@@ -33,4 +52,15 @@ const calculateExercises = (tDays: number[], target: number): Result => {
   };
 };
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2));
+//console.log(calculateExercises([1,0,2,4.5,0,3,1,0,4], 2));
+
+try {
+  const { target, array } = exerciseParseArguments(process.argv);
+  console.log(calculateExercises(array, target))
+} catch (error: unknown) {
+  let errorMessage = 'Something bad happened.'
+  if (error instanceof Error) {
+    errorMessage += ' Error: ' + error.message;
+  }
+  console.log(errorMessage);
+}
