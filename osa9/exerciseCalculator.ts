@@ -10,7 +10,7 @@ interface Result {
   average: number;
 }
 
-//käyttäjältä saatu syöte
+//kï¿½yttï¿½jï¿½ltï¿½ saatu syï¿½te
 interface UserInput {
   target: number;
   array: number[];
@@ -23,7 +23,7 @@ const ratingDescriptions = [
   'Very good!'
 ];
 
-//syötteen tarkistus
+//syï¿½tteen tarkistus
 const exerciseParseArguments = (args: Array<string>): UserInput => {
   if (args.length < 4) throw new Error('Not enough arguments');
 
@@ -38,7 +38,7 @@ const exerciseParseArguments = (args: Array<string>): UserInput => {
 };
 
 //harjoitusten laskenta ja analysointi
-const calculateExercises = (tDays: number[], target: number): Result => {
+export const calculateExercises = (tDays: number[], target: number): Result => {
 
   const periodLength = tDays.length;
   const trainingDays = tDays.reduce((p, c) => p + (c > 0 ? 1 : 0), 0);
@@ -56,14 +56,16 @@ const calculateExercises = (tDays: number[], target: number): Result => {
   };
 };
 
-//tarkistetaan, kutsutaanko tätä muualta, mikäli ei, suoritetaan
-try {
-  const { target, array } = exerciseParseArguments(process.argv);
-  console.log(calculateExercises(array, target));
-} catch (error: unknown) {
-  let errorMessage = 'Something bad happened.';
-  if (error instanceof Error) {
-    errorMessage += ' Error: ' + error.message;
+//tarkistetaan, kutsutaanko tï¿½tï¿½ muualta, mikï¿½li ei, suoritetaan
+if (require.main === module) {
+  try {
+    const { target, array } = exerciseParseArguments(process.argv);
+    console.log(calculateExercises(array, target));
+  } catch (error: unknown) {
+    let errorMessage = 'Something bad happened.';
+    if (error instanceof Error) {
+      errorMessage += ' Error: ' + error.message;
+    }
+    console.log(errorMessage);
   }
-  console.log(errorMessage);
 }
