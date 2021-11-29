@@ -6,15 +6,21 @@ export interface DiagnoseEntry {
 }
 
 //potilaiden tyypit
-export type Gender = 'male' | 'female' | 'other';
-
 export type PatientPublic = Omit<PatientEntry, 'ssn'>;
 
+export type NewPatientEntry = Omit<PatientEntry, 'id'>;
+
 export interface PatientEntry {
-    id: string,
-    name: string,
-    dateOfBirth: string,
-    ssn: string,
-    gender: Gender,
-    occupation: string
+    id: string;
+    name: string;
+    dateOfBirth: string;
+    ssn: string;
+    gender: Gender;
+    occupation: string;
 }
+
+export enum Gender {
+    Male = 'male',
+    Female = 'female',
+    Other = 'other'
+  }
