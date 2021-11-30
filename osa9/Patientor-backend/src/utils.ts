@@ -40,13 +40,19 @@ import { NewPatientEntry, Gender } from './types';
     return gender;
   };
 
+  /*/entries (array, jossa string)
+  const parseEntries = (param: any[]): param is string[] => {
+    
+  };*/
+
  const toNewPatientEntry = (object: any): NewPatientEntry => {
     const newEntry: NewPatientEntry = {
       name: parseString(object.name),
       dateOfBirth: parseDate(object.dateOfBirth),
       ssn: parseString(object.ssn),
       gender: parseGender(object.gender),
-      occupation: parseString(object.occupation)
+      occupation: parseString(object.occupation),
+      entries: []
     };
   
     return newEntry;
