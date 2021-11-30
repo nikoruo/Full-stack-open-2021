@@ -6,7 +6,7 @@ import { Icon } from 'semantic-ui-react';
 
 import { Patient } from "../types";
 import { apiBaseUrl } from "../constants";
-import { useStateValue } from "../state";
+import { setPatientInfo, useStateValue } from "../state";
 
 const PatientInfoPage = () => {
   const [{ patient }, dispatch] = useStateValue();
@@ -20,7 +20,7 @@ const PatientInfoPage = () => {
         const { data: patientInfo } = await axios.get<Patient>(
           `${apiBaseUrl}/patients/${id}`
         );
-        dispatch({ type: "SET_PATIENT_INFO", payload: patientInfo });
+        dispatch(setPatientInfo(patientInfo));
       } catch (error: unknown) {
         let errorMessage = 'Something went wrong.';
         if(axios.isAxiosError(error) && error.response) {
