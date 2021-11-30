@@ -4,11 +4,32 @@ export interface HeaderProps {
     name: string;
   }
 
-export interface Parts {
-    name: string,
-    exerciseCount: number,
+interface BaseParts {
+  name: string;
+  exerciseCount: number;
+  type: string;
 }
 
-export interface PartsProps {
-    parts: Parts[]
-  }
+interface BasePartsAdvanced extends BaseParts {
+  description: string;
+}
+
+interface CourseNormalPart extends BasePartsAdvanced {
+  type: "normal";  
+}
+interface CourseProjectPart extends BaseParts {
+  type: "groupProject";
+  groupProjectCount: number;
+}
+
+interface CourseSubmissionPart extends BasePartsAdvanced {
+  type: "submission";
+  exerciseSubmissionLink: string;
+}
+
+interface CourseSpecialPart extends BasePartsAdvanced {
+  type: "special";
+  requirements: string[];
+}
+
+export type CoursePart = CourseNormalPart | CourseProjectPart | CourseSubmissionPart | CourseSpecialPart;

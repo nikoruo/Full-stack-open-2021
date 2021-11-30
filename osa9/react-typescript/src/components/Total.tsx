@@ -1,13 +1,13 @@
 import React from 'react';
-import { PartsProps } from "../types"
+import { CoursePart } from "../types"
 
-const Total = (props: PartsProps) => {
+const Total = (props: {courseParts: CoursePart[]}) => {
     console.log("Total")
-    console.log(props)
+    
     return (
         <div>
-            Number of exercises{" "}
-            {props.parts.reduce((carry, part) => carry + part.exerciseCount, 0)}
+            <strong>Number of exercises{" "}</strong>
+            {props.courseParts.reduce((carry, part) => carry + part.exerciseCount, 0)}
       </div>
     )
 }
