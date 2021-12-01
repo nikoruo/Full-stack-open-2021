@@ -9,7 +9,7 @@ import { apiBaseUrl } from "../constants";
 import { setPatientInfo, useStateValue } from "../state";
 
 const PatientInfoPage = () => {
-  const [{ patient }, dispatch] = useStateValue();
+  const [{ patient, diagnoses }, dispatch] = useStateValue();
 
   const { id } = useParams<{ id: string }>();
   
@@ -66,7 +66,7 @@ const PatientInfoPage = () => {
           {e.diagnosisCodes ? 
           <ul>
             {e.diagnosisCodes.map(dc => 
-              <li key={dc}>{dc}</li>
+              <li key={dc}>{dc} {Object.values(diagnoses).find(d => d.code === dc)?.name}</li>
             )}
           </ul>
           : null}
