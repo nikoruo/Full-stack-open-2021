@@ -51,9 +51,29 @@ const PatientInfoPage = () => {
 
   return (
     <div className="App">
-      <h2>{patient?.name} {patientGender()}</h2>
-      <p>ssn: {patient?.ssn}</p>
-      <p>occupation: {patient?.occupation}</p>
+      <div>
+        <h2>{patient?.name} {patientGender()}</h2>
+        <p>ssn: {patient?.ssn}</p>
+        <p>occupation: {patient?.occupation}</p>
+      </div>
+      <p/>
+      {patient?.entries.length !== 0 ?
+      <div>
+        <h3>entries</h3>
+        {patient?.entries.map(e => 
+        <div key={e.id}>
+          <p>{e.date} {e.description}</p>
+          {e.diagnosisCodes ? 
+          <ul>
+            {e.diagnosisCodes.map(dc => 
+              <li key={dc}>{dc}</li>
+            )}
+          </ul>
+          : null}
+        </div>
+        )}
+      </div>
+      :null}
     </div>
   );
 };
