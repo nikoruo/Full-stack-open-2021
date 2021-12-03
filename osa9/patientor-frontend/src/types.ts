@@ -33,7 +33,7 @@ export interface Patient {
     diagnosisCodes?: Array<Diagnosis['code']>;
   }
 
-  interface HospitalEntry extends BaseEntry{
+  export interface HospitalEntry extends BaseEntry{
     type: 'Hospital';
     discharge: {
         date: string;
@@ -41,7 +41,7 @@ export interface Patient {
     };
   }
 
-  interface OccupationalHealthcareEntry extends BaseEntry{
+  export interface OccupationalHealthcareEntry extends BaseEntry{
     type: 'OccupationalHealthcare';
     employerName: string;
     sickLeave?: {
@@ -57,7 +57,7 @@ export interface Patient {
     "CriticalRisk" = 3
   }
 
-  interface HealthCheck extends BaseEntry {
+  export interface HealthCheck extends BaseEntry {
     type: 'HealthCheck';
     healthCheckRating: HealthCheckRating;
 

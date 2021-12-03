@@ -4,12 +4,16 @@ import { useParams } from "react-router-dom";
 
 import { Icon } from 'semantic-ui-react';
 
-import { Patient } from "../types";
+import { Entry, Patient } from "../types";
 import { apiBaseUrl } from "../constants";
 import { setPatientInfo, useStateValue } from "../state";
+import { assertNever } from "../utils";
+import { HospitalEntryPage } from "./HospitalEntry";
+import { OccupationalHealthcarePage } from "./OccupationalHealthCare";
+import { HealthCheckPage } from "./HealthCheck";
 
 const PatientInfoPage = () => {
-  const [{ patient, diagnoses }, dispatch] = useStateValue();
+  const [{ patient }, dispatch] = useStateValue();
 
   const { id } = useParams<{ id: string }>();
   
@@ -36,7 +40,7 @@ const PatientInfoPage = () => {
     
   }, [id]);
 
-  const patientGender = () => {
+  const PatientGender = () => {
     switch(patient?.gender){
         case "male":
             return <Icon name="mars" size="big"/>;
@@ -49,10 +53,23 @@ const PatientInfoPage = () => {
         }
     };
 
+    const EntryDetails = (props: Entry) => {
+      switch(props.type){
+          case "Hospital":
+              return <HospitalEntryPage {...props}/>;
+          case "OccupationalHealthcare":
+              return <OccupationalHealthcarePage {...props}/>;
+          case "HealthCheck":
+              return <HealthCheckPage {...props}/>;
+          default:
+              return assertNever(props);
+          }
+      };
+
   return (
     <div className="App">
       <div>
-        <h2>{patient?.name} {patientGender()}</h2>
+        <h2>{patient?.name} {PatientGender()}</h2>
         <p>ssn: {patient?.ssn}</p>
         <p>occupation: {patient?.occupation}</p>
       </div>
@@ -61,16 +78,7 @@ const PatientInfoPage = () => {
       <div>
         <h3>entries</h3>
         {patient?.entries.map(e => 
-        <div key={e.id}>
-          <p>{e.date} {e.description}</p>
-          {e.diagnosisCodes ? 
-          <ul>
-            {e.diagnosisCodes.map(dc => 
-              <li key={dc}>{dc} {Object.values(diagnoses).find(d => d.code === dc)?.name}</li>
-            )}
-          </ul>
-          : null}
-        </div>
+        <div key={e.id}><EntryDetails {...e}/></div>
         )}
       </div>
       :null}
