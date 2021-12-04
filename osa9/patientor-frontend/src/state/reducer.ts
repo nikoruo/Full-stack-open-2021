@@ -18,6 +18,10 @@ export type Action =
   | {
       type: "SET_DIAGNOSIS_LIST";
       payload: Diagnosis[];
+    }
+  | {
+      type: "ADD_ENTRY";
+      payload: Patient;
     };
 
 //action creatorit
@@ -46,6 +50,13 @@ export const setDiagnosisList = (diagnoses: Diagnosis[]): Action => {
   return {
     type: "SET_DIAGNOSIS_LIST",
     payload: diagnoses
+  };
+};
+
+export const addEntry = (entry: Patient): Action => {
+  return {
+    type: "ADD_ENTRY",
+    payload: entry
   };
 };
 
@@ -87,6 +98,11 @@ export const reducer = (state: State, action: Action): State => {
           ...state.diagnoses
         }
       };
+      case "ADD_ENTRY":
+        return {
+          ...state,
+          patient: action.payload
+        };
     default:
       return state;
   }
