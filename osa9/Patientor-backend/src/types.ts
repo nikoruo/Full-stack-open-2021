@@ -27,7 +27,7 @@ export enum Gender {
   }
 
   //Entries
-  interface BaseEntry {
+  export interface BaseEntry {
     id: string;
     description: string;
     date: string;
@@ -69,3 +69,9 @@ export enum Gender {
   | HealthCheck
   | HospitalEntry
   | OccupationalHealthcareEntry;
+
+  export type NewEntry =
+  | Omit<HealthCheck, "id">
+  | Omit<HospitalEntry, "id">
+  | Omit<OccupationalHealthcareEntry, "id">;
+  
