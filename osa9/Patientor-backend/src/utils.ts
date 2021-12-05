@@ -81,10 +81,11 @@ import { NewPatientEntry, Gender, NewEntry, DiagnoseEntry, Entry, HealthCheckRat
   };
 
   const parseRating = (rating: any): HealthCheckRating=> {
-    if (!rating || !isRating(rating)) {
-        throw new Error('missing or incorrect healthCheckRating');
+    console.log("padsfjkpo", rating);
+    if (rating && isRating(rating) || rating === 0 && isRating(rating)) {
+      return rating;        
     } else {
-      return rating;
+      throw new Error('missing or incorrect healthCheckRating');
     }
   };
 

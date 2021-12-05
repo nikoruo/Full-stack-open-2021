@@ -3,10 +3,10 @@ import React from "react";
 import { Grid, Button } from "semantic-ui-react";
 import { DiagnosisSelection, NumberField, SelectField, TextField } from "../AddEntryModal/FormField";
 import { useStateValue } from "../state";
-import { Entry } from "../types";
+import { HealthCheck } from "../types";
 import { TypeOption } from "./FormField";
 
-export type EntryFormValues = Omit<Entry, "id">;
+export type EntryFormValues = Omit<HealthCheck, "id">;
 
 interface Props {
     onSubmit: (values: EntryFormValues) => void;
@@ -22,8 +22,6 @@ const typeOptions: TypeOption[] = [
 
     export const AddEntryForm = ({ onSubmit, onCancel }: Props) => {
     const [{ diagnoses }] = useStateValue();
-  
-
 
     return (
       <Formik
@@ -33,7 +31,7 @@ const typeOptions: TypeOption[] = [
         date: "",
         specialist: "",
         diagnosisCodes: [],
-        //healthCheckRating: HealthCheckRating.Healthy,
+        healthCheckRating: -1,
         //employerName: "",
         //sickLeave: { startDate: "", endDate: "" },
         //discharge: { date: "", criteria: "" },
@@ -101,7 +99,9 @@ const typeOptions: TypeOption[] = [
               component={NumberField}
               min={0}
               max={3}
+              placeholder={0}
             />
+            
             <Grid>
               <Grid.Column floated="left" width={5}>
                 <Button type="button" onClick={onCancel} color="red">

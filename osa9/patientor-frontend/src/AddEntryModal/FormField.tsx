@@ -19,19 +19,21 @@ type SelectFieldProps = {
 export const SelectField = ({
   name,
   label,
-  options
-}: SelectFieldProps) => (
-  <Form.Field>
-    <label>{label}</label>
-    <Field as="select" name={name} className="ui dropdown">
-      {options.map(option => (
-        <option key={option.value} value={option.value}>
-          {option.label || option.value}
-        </option>
-      ))}
-    </Field>
-  </Form.Field>
-);
+  options,
+}: SelectFieldProps) => {
+  return(
+    <Form.Field>
+      <label>{label}</label>
+      <Field as="select" name={name} className="ui dropdown">
+        {options.map(option => (
+          <option key={option.value} value={option.value}>
+            {option.label || option.value}
+          </option>
+        ))}
+      </Field>
+    </Form.Field>
+  );
+};
 
 interface TextProps extends FieldProps {
   label: string;
@@ -72,6 +74,44 @@ export const NumberField = ({ field, label, min, max } : NumberProps ) => (
     </div>
   </Form.Field>
 );
+
+export const TypeSelection = ({
+  setFieldValue,
+  setFieldTouched
+}: {
+  value: string;
+  setFieldValue: FormikProps<{ typesF: string }>["setFieldValue"];
+  setFieldTouched: FormikProps<{ typesF: string }>["setFieldTouched"];
+}) => {
+  const field = "typesF";
+  const onChange = (
+    _event: React.SyntheticEvent<HTMLElement, Event>,
+    data: DropdownProps,
+  ) => {
+    setFieldTouched(field, true);
+    setFieldValue(field, data.value);
+  };
+
+  const stateOptions = [
+    { key: "HealthCheck", value: "HealthCheck", text: "HealthCheck" },
+    { key: "Hospital", value: "Hospital", text: "Hospital" },
+    { key: "OccupationalHealthcare", value: "OccupationalHealthcare", text: "OccupationalHealthcare" }
+];
+  return (
+    <Form.Field>
+      <label>Type</label>
+      <Dropdown
+        placeholder="Select a Type"
+        fluid
+        selection
+        options={stateOptions}
+        onChange={onChange}
+      />
+      <ErrorMessage name={field} />
+    </Form.Field>
+  );
+};
+
 
 export const DiagnosisSelection = ({
   diagnoses,
