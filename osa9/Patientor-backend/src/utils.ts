@@ -81,7 +81,6 @@ import { NewPatientEntry, Gender, NewEntry, DiagnoseEntry, Entry, HealthCheckRat
   };
 
   const parseRating = (rating: any): HealthCheckRating=> {
-    console.log("padsfjkpo", rating);
     if (rating && isRating(rating) || rating === 0 && isRating(rating)) {
       return rating;        
     } else {
